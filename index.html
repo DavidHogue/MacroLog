@@ -1,26 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>MacroLog - Track daily macronutrients, food calories, and weight</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
 
-    <h1>MacroLog - Track daily macronutrients, food calories, and weight</h1>
+    <div class="container">
+        <h1>MacroLog</h1><h2>Track daily macronutrients, food calories, and weight</h2>
+        
+        <h3>Add Food</h3>
+        <form>
+            <input type="text" name="name" id="name" placeholder="name">
+            <input type="number" class="input-small" name="calories" id="calories" placeholder="cals">
+            <input type="number" class="input-small" name="fat" id="fat" placeholder="fat (g)">
+            <input type="number" class="input-small" name="carbs" id="carbs" placeholder="carbs (g)">
+            <input type="number" class="input-small" name="protein" id="protein" placeholder="protein (g)">
+            <input type="number" class="input-small" name="quantity" id="quantity" placeholder="quantity">
+            <button type="submit" class="btn" id="add">Add</button>
+        </form>
+        
 
-    <h2>Features implemented:
-    <ul></ul>
-    
-    <h2>Features planned:
-    <ul>
-        <li>Daily goals that can vary by day for macro cycling</li>
-        <li>Links to good online reading or books</li>
-        <li>Log by searching for food or by entering raw data</li>
-        <li>Graphs, w/ moving averages</li>
-        <li>Registration optional (enter only one day, no graphs)</li>
-        <li>Data export and import</li>
-        <li>Units converter</li>        
-    </ul>
+        <h3>Features implemented:</h3>
+        <ul></ul>
+        
+        <h3>Features planned:</h3>
+        <ul>
+            <li>Daily goals that can vary by day for macro cycling</li>
+            <li>Links to good online reading or books</li>
+            <li>Log by searching for food or by entering raw data</li>
+            <li>Graphs, w/ moving averages</li>
+            <li>Registration optional (enter only one day, no graphs)</li>
+            <li>Data export and import</li>
+            <li>Units converter</li>
+            <li>Mobile friendly layout</li>
+        </ul>
+    </div>
     
 
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/test.js"></script>
 </body>
 </html>
