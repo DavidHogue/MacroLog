@@ -9,4 +9,4 @@ requirejs.config({
     }
 });
 
-require(["food"]);
+require(["food", "log"]);
