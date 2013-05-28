@@ -59,13 +59,28 @@ define(["config"], function(config) {
         return deferred;
     }
     
-    function loadLog() {
+    function editFood(food) {
+        var deferred = new $.Deferred();
+    
+        // Write to db.
+        $.ajax(config.database + "/" + food._id, {
+            data: JSON.stringify(food),
+            contentType: "application/json",
+            type: "PUT"
+        }).done(function () {
+            deferred.resolve();
+        });
+        
+        return deferred;
+    }
+    
+    function loadLog(date) {
         var deferred = new $.Deferred();
 
         $.ajax(config.database + "/_design/log/_view/date_full", {
             type: "GET",
             data: {
-                //key: prettyDate(date)
+                key: JSON.stringify(date),
                 include_docs: true
             }
         }).done(function(data) {
@@ -74,7 +89,7 @@ define(["config"], function(config) {
                 i,
                 log,
                 food;
-            for (i = 0; i < parsed.total_rows; i += 1) {
+            for (i = 0; i < parsed.rows.length; i += 1) {
                 log = parsed.rows[i].value.log;
                 food = parsed.rows[i].doc;
                 results.push({ log: log, food: food });
@@ -100,11 +115,27 @@ define(["config"], function(config) {
         return deferred;
     }
     
+    function deleteLog(id, rev) {
+        var deferred = new $.Deferred();
+
+        $.ajax(config.database + "/" + encodeURIComponent(id) + "?rev=" + encodeURIComponent(rev), {
+            data: JSON.stringify({ rev: rev }),
+            contentType: "application/json",
+            type: "DELETE"
+        }).done(function() {
+            deferred.resolve();
+        });
+        
+        return deferred;
+    }
+    
     return { 
         loadFoods: loadFoods,
         getFood: getFood,
         addFood: addFood,
+        editFood: editFood,
         loadLog: loadLog,
-        logFood: logFood
+        logFood: logFood,
+        deleteLog: deleteLog
     };
 });

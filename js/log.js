@@ -11,26 +11,43 @@ define(["jquery", "api"], function($, api) {
         $('#date').text(prettyDate(date));
     }
     
-    function getFoodDiv(food, quantity) {
+    function deleteFood() {
+        var $button = $(this);
+        var id = $button.data('id');
+        var rev = $button.data('rev');
+        api.deleteLog(id, rev).done(function() {
+            $button.parent().remove();
+        });
+    }
+    
+    function getFoodDiv(food, log) {
+        if (!log) {
+            log = { quantity: 1 };
+        }
         var $div = $("<div>"),
-            multiplier = quantity && quantity !== 1 ? " (x" + quantity + ")" : "",
+            multiplier = log.quantity && log.quantity !== 1 ? " (x" + log.quantity + ")" : "",
             button;
-        $div.append($("<strong>").text(food.name + multiplier + ":"));
-        $div.append($("<span>").text("Calories: " + food.calories * quantity));
-        $div.append($("<span>").text("Fat: " + food.fat * quantity));
-        $div.append($("<span>").text("Carbs: " + food.carb * quantity));
-        $div.append($("<span>").text("Protein: " + food.protein * quantity));
-        if (food.name !== "Totals") {
+        if (food) {
+            $div.append($("<strong>").text(food.name + multiplier + ":"));
+            $div.append($("<span>").text("Calories: " + food.calories * log.quantity));
+            $div.append($("<span>").text("Fat: " + food.fat * log.quantity));
+            $div.append($("<span>").text("Carbs: " + food.carb * log.quantity));
+            $div.append($("<span>").text("Protein: " + food.protein * log.quantity));
+        }
+        if (log._id) {
             button = $('<a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i> Delete</a>')
-                            .data('id', food._id)
-                            .data('rev', food._rev);
-                            //.click(deleteFood);
+                            .data('id', log._id)
+                            .data('rev', log._rev)
+                            .click(deleteFood);
             $div.append(button);
         }
         return $div;
     }
 
     function sumFood(totals, food, quantity) {
+        if (!food || !quantity)
+            return;
+
         totals.calories += food.calories * quantity;
         totals.fat += food.fat * quantity;
         totals.carb += food.carb * quantity;
@@ -41,7 +58,7 @@ define(["jquery", "api"], function($, api) {
         var $foods = $("#foods");
         $foods.empty();
 
-        api.loadLog().done(function(logs) {
+        api.loadLog(prettyDate(date)).done(function(logs) {
             var totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 },
                 i,
                 food;
@@ -49,7 +66,7 @@ define(["jquery", "api"], function($, api) {
                 log = logs[i].log;
                 food = logs[i].food;
                 sumFood(totals, food, log.quantity);
-                $foods.append(getFoodDiv(food, log.quantity));
+                $foods.append(getFoodDiv(food, log));
             }
             $foods.append(getFoodDiv(totals));
         });
