@@ -25,10 +25,25 @@
             </div>
         </form>
        
-        <h3>Foods</h3>
-        <div id="foods">
-            
-        </div>
+        <h3>Log</h3>
+        <table id="logTable" class="table table-condensed">
+            <tr>
+                <th>Name</th>
+                <th>Calories</th>
+                <th>Fat</th>
+                <th>Carbs</th>
+                <th>Protein</th>
+                <th></th>
+            </tr>
+            <tr class="logTemplate" style="display:none">
+                <td class="name"></td>
+                <td class="calories"></td>
+                <td class="fat"></td>
+                <td class="carb"></td>
+                <td class="protein"></td>
+                <td class="buttons"><a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i> Delete</a></td>
+            </tr>
+        </table>
 
         <h3>Features implemented</h3>
         <ul>
