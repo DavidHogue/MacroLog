@@ -28,15 +28,17 @@ define(["jquery", "api", "date"], function($, api, date) {
             .removeClass("logTemplate")
             .addClass("logRow");
             
-        if (!food) {
+        var qty = log ? log.quantity : 1;
+        if (!food)
             food = { name: "-", calories: "-", fat: "-", carb: "-", protein: "-" };
-        }
-        
+
         $row.find(".name").text(food.name);
-        $row.find(".calories").text(food.calories);
-        $row.find(".fat").text(food.fat);
-        $row.find(".carb").text(food.carb);
-        $row.find(".protein").text(food.protein);
+        if (qty !== 1)
+            $row.find(".name").append('<small class="muted"> x' + qty + "</small>");
+        $row.find(".calories").text(food.calories * qty);
+        $row.find(".fat").text(food.fat * qty);
+        $row.find(".carb").text(food.carb * qty);
+        $row.find(".protein").text(food.protein * qty);
         
         if (log) {
             $row.find(".buttons .btn")
