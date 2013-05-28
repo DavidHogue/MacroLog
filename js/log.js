@@ -1,4 +1,6 @@
 define(["jquery", "api", "date"], function($, api, date) {
+    
+    var totals;
 
     function deleteFood(e) {
         e.preventDefault();
@@ -11,7 +13,7 @@ define(["jquery", "api", "date"], function($, api, date) {
         });
     }
 
-    function sumFood(totals, food, quantity) {
+    function sumFood(food, quantity) {
         if (!food || !quantity)
             return;
 
@@ -19,6 +21,10 @@ define(["jquery", "api", "date"], function($, api, date) {
         totals.fat += food.fat * quantity;
         totals.carb += food.carb * quantity;
         totals.protein += food.protein * quantity;
+    }
+    
+    function getTotals() {
+        return totals;
     }
     
     function addLogRow(food, log) {
@@ -57,13 +63,15 @@ define(["jquery", "api", "date"], function($, api, date) {
         $(".logRow").remove();
 
         api.loadLog(date.prettyDate()).done(function(logs) {
-            var totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 },
-                i,
+            var i,
                 food;
+
+            totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 };
+
             for (i = 0; i < logs.length; i++) {
                 log = logs[i].log;
                 food = logs[i].food;
-                sumFood(totals, food, log.quantity);
+                sumFood(food, log.quantity);
                 addLogRow(food, log);
             }
             addLogRow(totals);
@@ -95,4 +103,7 @@ define(["jquery", "api", "date"], function($, api, date) {
         date.dateChanged(showLog);
     });
 
+    return {
+        getTotals: getTotals
+    }
 });
