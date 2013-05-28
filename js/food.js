@@ -1,34 +1,9 @@
-define(["jquery", "config"], function($, config) {
+define(["jquery", "api"], function($, api) {
     
     "use strict";
 
-    function loadFoods() {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database + "/_design/foods/_view/name", {
-            type: "GET",
-            data: { include_docs: true }
-        }).done(function(data) {
-            var parsed = JSON.parse(data),
-                results = [],
-                i,
-                food;
-            for (i = 0; i < parsed.total_rows; i++) {
-                food = parsed.rows[i].value;
-                food.calories = food.calories;
-                food.fat = food.fat;
-                food.carb = food.carb;
-                food.protein = food.protein;
-                results.push(food);
-            }
-            deferred.resolve(results);
-        });
-
-        return deferred;
-    }
-    
     function listFoods() {
-        loadFoods().done(function(foods) {
+        api.loadFoods().done(function(foods) {
             var $foodList = $("#foodList");
             for (var i = 0; i < foods.length; i++) {
                 var food = foods[i];
@@ -37,6 +12,30 @@ define(["jquery", "config"], function($, config) {
                     .val(food._id);
                 $foodList.append($option);
             }
+        });
+    }
+    
+    function viewFood() {
+        var id = $("#foodList").val();
+        api.getFood(id).done(function(food) {
+            var $dialog = $("<div>");
+            $dialog.css({ 
+                position: "absolute",
+                top: "150px",
+                margin: "0 auto",
+                border: "1px solid red",
+                backgroundColor: "white"
+            });
+            $dialog.append($("<div>").text("Name: " + food.name));
+            $dialog.append($("<div>").text("Calories: " + food.calories));
+            $dialog.append($("<div>").text("Fat: " + food.fat));
+            $dialog.append($("<div>").text("Carbs: " + food.carb));
+            $dialog.append($("<div>").text("Protein: " + food.protein));
+            $dialog.append($("<button>").text("Close").click(function() {
+                $dialog.remove();
+            }));
+            
+            $("body").append($dialog);
         });
     }
     
@@ -50,20 +49,13 @@ define(["jquery", "config"], function($, config) {
             carb: parseFloat($("#carb").val()) || 0,
             protein: parseFloat($("#protein").val()) || 0
         };
-
-        // Write to db.
-        $.ajax(config.database, {
-            data: JSON.stringify(food),
-            contentType: "application/json",
-            type: "POST"
-        }).done(listFoods);
-
-        // Prevent normal button events.
-        return false;
+        
+        api.addFood(food).done(listFoods);
     }
     
     $(function() {
         listFoods();
         $("#add").click(addFood);
+        $("#viewFood").click(viewFood);
     });
 });

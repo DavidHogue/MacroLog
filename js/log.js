@@ -1,4 +1,4 @@
-define(["jquery", "config"], function($, config) {
+define(["jquery", "api"], function($, api) {
 
     var date;
     
@@ -9,34 +9,6 @@ define(["jquery", "config"], function($, config) {
     function showDate() {
         date = new Date();
         $('#date').text(prettyDate(date));
-    }
-    
-    
-    function loadLog() {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database + "/_design/log/_view/date_full", {
-            type: "GET",
-            data: {
-                //key: prettyDate(date)
-                include_docs: true
-            }
-        }).done(function(data) {
-            var parsed = JSON.parse(data),
-                results = [],
-                i,
-                log,
-                food;
-            for (i = 0; i < parsed.total_rows; i += 1) {
-                log = parsed.rows[i].value.log;
-                food = parsed.rows[i].doc;
-                results.push({ log: log, food: food });
-            }
-            
-            deferred.resolve(results);
-        });
-
-        return deferred;
     }
     
     function getFoodDiv(food, quantity) {
@@ -69,7 +41,7 @@ define(["jquery", "config"], function($, config) {
         var $foods = $("#foods");
         $foods.empty();
 
-        loadLog().done(function(logs) {
+        api.loadLog().done(function(logs) {
             var totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 },
                 i,
                 food;
@@ -93,11 +65,7 @@ define(["jquery", "config"], function($, config) {
         };
 
         // Write to db.
-        $.ajax(config.database, {
-            data: JSON.stringify(log),
-            contentType: "application/json",
-            type: "POST"
-        }).done(function() {
+        api.logFood(log).done(function() {
             showLog();
         });
 

@@ -11,21 +11,26 @@
 
         <div id="date"></div>
         
-        <h3>Add Food</h3>
-        <form>
-            <input type="text" name="name" id="name" placeholder="name">
-            <input type="number" class="input-small" name="calories" id="calories" placeholder="cals">
-            <input type="number" class="input-small" name="fat" id="fat" placeholder="fat (g)">
-            <input type="number" class="input-small" name="carbs" id="carbs" placeholder="carbs (g)">
-            <input type="number" class="input-small" name="protein" id="protein" placeholder="protein (g)">            
-            <button type="submit" class="btn" id="add">Add</button>
-        </form>
+        <div style="display:none">
+            <h3>Add Food</h3>
+            <form>
+                <input type="text" name="name" id="name" placeholder="name">
+                <input type="number" class="input-small" name="calories" id="calories" placeholder="cals">
+                <input type="number" class="input-small" name="fat" id="fat" placeholder="fat (g)">
+                <input type="number" class="input-small" name="carbs" id="carbs" placeholder="carbs (g)">
+                <input type="number" class="input-small" name="protein" id="protein" placeholder="protein (g)">            
+                <button type="submit" class="btn" id="add">Add</button>
+            </form>
+        </div>
         
         <h3>Log Food</h3>
         <form>
             <select id="foodList"></select>
             <input type="number" class="input-small" name="quantity" id="quantity" placeholder="quantity">
-            <button type="submit" class="btn" id="log">Log</button>
+            <button type="button" class="btn" id="log">Log</button>
+            <button type="button" class="btn" id="viewFood">View</button>
+            <button type="button" class="btn" id="editFood">Edit</button>
+            <button type="button" class="btn" id="addFood">Add</button>
         </form>
        
         <h3>Foods</h3>
@@ -56,10 +61,12 @@
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     
-    <!--<script data-main="js/main" src="js/lib/require.js"></script>-->
+    <script data-main="js/main" src="js/lib/require.js"></script>
     
+    <!--
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script src="js/optimized.js"></script>
+    -->
     
 </body>
 </html>
