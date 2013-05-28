@@ -1,7 +1,18 @@
 define(["jquery", "api", "date"], function($, api, date) {
     
-    var totals;
+    var totals,
+        logChangedCallback;
 
+            
+    function logChanged(callback) {
+        logChangedCallback = callback;
+    }
+    
+    function triggerLogChanged() {
+        if (typeof logChangedCallback === "function")
+            logChangedCallback();
+    }
+        
     function deleteFood(e) {
         e.preventDefault();
 
@@ -10,6 +21,7 @@ define(["jquery", "api", "date"], function($, api, date) {
         var rev = $button.data('rev');
         api.deleteLog(id, rev).done(function() {
             $button.parents(".logRow").remove();
+            triggerLogChanged();
         });
     }
 
@@ -75,6 +87,7 @@ define(["jquery", "api", "date"], function($, api, date) {
                 addLogRow(food, log);
             }
             addLogRow(totals);
+            triggerLogChanged();
         });
     }
 
@@ -90,6 +103,7 @@ define(["jquery", "api", "date"], function($, api, date) {
         // Write to db.
         api.logFood(log).done(function() {
             showLog();
+            triggerLogChanged();
         });
 
         // Prevent normal button events.
@@ -104,6 +118,7 @@ define(["jquery", "api", "date"], function($, api, date) {
     });
 
     return {
-        getTotals: getTotals
+        getTotals: getTotals,
+        logChanged: logChanged
     }
 });

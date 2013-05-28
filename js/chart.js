@@ -1,4 +1,4 @@
-define(["jquery", "log", "goog!visualization,1,packages:[corechart]"], function($, log) {
+define(["log", "goog!visualization,1,packages:[corechart]"], function(log) {
 
     "use strict";
     
@@ -8,7 +8,6 @@ define(["jquery", "log", "goog!visualization,1,packages:[corechart]"], function(
         totals.carbCals = totals.carb * 4;
         totals.proteinCals = totals.protein * 4;
         totals.otherCals = totals.calories - totals.fatCals - totals.carbCals - totals.proteinCals;
-        console.log(totals);
     
         var data = new google.visualization.DataTable();
         data.addColumn("string", "macro");
@@ -32,5 +31,6 @@ define(["jquery", "log", "goog!visualization,1,packages:[corechart]"], function(
     
     $(function() {
         drawChart();
+        log.logChanged(drawChart);
     });
 });
