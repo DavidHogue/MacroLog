@@ -7,11 +7,16 @@
 <body>
 
     <div class="container">
-        <h1>MacroLog</h1><h2>Track daily macronutrients, food calories, and weight</h2>
+        <h1>MacroLog</h1>
+        <p class="lead">Track daily macronutrients, food calories, and weight</p>
 
-        <div id="date"></div>
+        <div>
+            <button class="btn" id="prevDate"><i class="icon-circle-arrow-left"></i></button>
+            <button class="btn" id="date"></button>
+            <button class="btn" id="nextDate"><i class="icon-circle-arrow-right"></i></button>
+        </div>
         
-        <h3>Log Food</h3>
+        <h3>Add Food</h3>
         <form>
             <select id="foodList"></select>
             <input type="number" class="input-small" name="quantity" id="quantity" placeholder="quantity">
@@ -41,7 +46,7 @@
                 <td class="fat"></td>
                 <td class="carb"></td>
                 <td class="protein"></td>
-                <td class="buttons"><a class="btn btn-danger" href="#"><i class="icon-trash icon-white"></i> Delete</a></td>
+                <td class="buttons"><button class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button></td>
             </tr>
         </table>
 

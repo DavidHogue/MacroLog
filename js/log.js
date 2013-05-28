@@ -1,16 +1,5 @@
-define(["jquery", "api"], function($, api) {
+define(["jquery", "api", "date"], function($, api, date) {
 
-    var date;
-    
-    function prettyDate(d) {
-        return d.getMonth() + "/" + d.getDate() + "/" + d.getFullYear();
-    }
-
-    function showDate() {
-        date = new Date();
-        $('#date').text(prettyDate(date));
-    }
-    
     function deleteFood(e) {
         e.preventDefault();
 
@@ -38,6 +27,10 @@ define(["jquery", "api"], function($, api) {
             .css("display", "")
             .removeClass("logTemplate")
             .addClass("logRow");
+            
+        if (!food) {
+            food = { name: "-", calories: "-", fat: "-", carb: "-", protein: "-" };
+        }
         
         $row.find(".name").text(food.name);
         $row.find(".calories").text(food.calories);
@@ -61,7 +54,7 @@ define(["jquery", "api"], function($, api) {
     function showLog() {
         $(".logRow").remove();
 
-        api.loadLog(prettyDate(date)).done(function(logs) {
+        api.loadLog(date.prettyDate()).done(function(logs) {
             var totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 },
                 i,
                 food;
@@ -81,7 +74,7 @@ define(["jquery", "api"], function($, api) {
             type: "log",
             food_id: $("#foodList").val(),
             quantity: parseFloat($("#quantity").val()) || 1,
-            date: prettyDate(date)
+            date: date.prettyDate()
         };
 
         // Write to db.
@@ -94,10 +87,10 @@ define(["jquery", "api"], function($, api) {
     }
 
     $(function() {
-        showDate();
         showLog();
 
         $("#log").click(logFood);
+        date.dateChanged(showLog);
     });
 
 });
