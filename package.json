@@ -1,0 +1,8 @@
+{
+  "name": "MacroLog",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-requirejs": "~0.3.5"
+  }
+}

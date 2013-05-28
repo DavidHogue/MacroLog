@@ -9,4 +9,11 @@ requirejs.config({
     }
 });
 
-require(["food", "log"]);
+define("jquery", function() {
+    return window.jQuery;
+});
+
+require([
+    "food", 
+    "log"
+]);
