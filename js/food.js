@@ -26,7 +26,7 @@ define(["jquery", "api"], function($, api) {
             $("#showFoodFat").text(food.fat);
             $("#showFoodCarb").text(food.carb);
             $("#showFoodProtein").text(food.protein);
-            $("#showFood").modal();
+            $("#showFood").modal("show");
         });
     } 
     
@@ -48,11 +48,11 @@ define(["jquery", "api"], function($, api) {
                 api.editFood(food).done(function() {
                     listFoods();
                     $("#editFoodSave").unbind("click");
-                    $("#editFood").modal('hide');
+                    $("#editFood").modal("hide");
                 });
             });
             
-            $("#editFood").modal('show');
+            $("#editFood").modal("show");
         });
     }
     
@@ -75,11 +75,11 @@ define(["jquery", "api"], function($, api) {
             api.addFood(food).done(function() {
                 listFoods();
                 $("#editFoodSave").unbind("click");
-                $("#editFood").modal('hide');
+                $("#editFood").modal("hide");
             });
         });
             
-        $("#editFood").modal('show');
+        $("#editFood").modal("show");
     }
     
     $(function() {

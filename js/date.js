@@ -9,7 +9,7 @@ define(["jquery"], function($) {
     
     // Return the date in m/d/yyyy format
     function prettyDate() {
-        return date.getMonth() + "/" + date.getDate() + "/" + date.getFullYear();
+        return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
     }
 
     // Update the displayed date

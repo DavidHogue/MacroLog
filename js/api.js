@@ -129,6 +129,100 @@ define(["config"], function(config) {
         return deferred;
     }
     
+    function saveDay(day) {
+        var deferred = new $.Deferred();
+
+        $.ajax(config.database + "/" + encodeURIComponent(day._id), {
+            data: JSON.stringify(day),
+            contentType: "application/json",
+            type: "PUT"
+        }).done(function() {
+            deferred.resolve();
+        });
+        
+        return deferred;
+    }
+    
+    function addDay(day) {
+        var deferred = new $.Deferred();
+
+        $.ajax(config.database, {
+            data: JSON.stringify(day),
+            contentType: "application/json",
+            type: "POST"
+        }).done(function() {
+            deferred.resolve();
+        });
+        
+        return deferred;
+    }
+        
+    function getDay(date) {
+        var deferred = new $.Deferred();
+
+        $.ajax(config.database + "/_design/day/_view/date", {
+            data: { key: JSON.stringify(date) },
+            type: "GET"
+        }).done(function(data) {
+            var parsed = JSON.parse(data);
+            var day;
+            if (parsed.rows.length == 1)
+                day = parsed.rows[0].value;
+            else
+                day = null;
+            deferred.resolve(day);
+        });
+        
+        return deferred;
+    }
+    
+    function getGoals() {
+        var deferred = new $.Deferred();
+
+        $.ajax(config.database + "/_design/goals/_view/all", {
+            type: "GET"
+        }).done(function(data) {
+            var parsed = JSON.parse(data);
+            var goal;
+            if (parsed.rows.length == 1)
+                goal = parsed.rows[0].value;
+            else
+                goal = null;
+            deferred.resolve(goal);
+        });
+        
+        return deferred;
+    }    
+    
+    function saveGoals(goal) {
+        var deferred = new $.Deferred(),
+            url,
+            method
+
+        if (goal && goal._id) {
+            url = config.database + "/" + encodeURIComponent(goal._id);
+            method = "PUT";
+        } else {
+            url = config.database;
+            method = "POST";
+        }        
+        
+        $.ajax(url, {
+            data: JSON.stringify(goal),
+            contentType: "application/json",
+            type: method
+        }).done(function(response) {
+            var data = JSON.parse(response);
+            if (data.ok) {
+                goal._id = data.id;
+                goal._rev = data.rev;
+            }
+            deferred.resolve();
+        });
+        
+        return deferred;
+    }
+        
     return { 
         loadFoods: loadFoods,
         getFood: getFood,
@@ -136,6 +230,11 @@ define(["config"], function(config) {
         editFood: editFood,
         loadLog: loadLog,
         logFood: logFood,
-        deleteLog: deleteLog
+        deleteLog: deleteLog,
+        saveDay: saveDay,
+        addDay: addDay,
+        getDay: getDay,
+        getGoals: getGoals,
+        saveGoals: saveGoals
     };
 });

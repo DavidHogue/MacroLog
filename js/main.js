@@ -19,5 +19,6 @@ define("jquery", function() {
 require([
     "food", 
     "log",
-    "chart"
+    "chart",
+    "goals"
 ]);

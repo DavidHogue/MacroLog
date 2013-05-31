@@ -49,6 +49,24 @@
                 <td class="buttons"><button class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button></td>
             </tr>
         </table>
+        
+        <div id="goals">
+            <div>
+                Calories: <span id="goalCalories"></span>
+            </div>
+            <div>
+                Fat: <span id="goalFat"></span>
+            </div>
+            <div>
+                Carbs: <span id="goalCarbs"></span>
+            </div>
+            <div>
+                Protein: <span id="goalProtein"></span>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary" id="editGoalsButton">Edit Goals</button>
+            </div>
+        </div>
 
         <h3>Charts</h3>
         <div id="chart"></div>
@@ -70,6 +88,14 @@
             <li>Data export and import</li>
             <li>Units converter</li>
             <li>Mobile friendly layout</li>
+            <li>Security on foods</li>
+            <li>Food search as you type</li>
+            <li>Food nutrition facts panel</li>
+            <li>Recipes that combine foods, + icon in listing shows sub-foods</li>
+            <li>Food units in weight, volume, servings. Autocalculate quantity when logging</li>
+            <li>Choose columns to display</li>
+            <li>Unit tests...</li>
+            <li>GitHub...</li>
         </ul>
     </div>
     
@@ -104,6 +130,23 @@
             <button id="editFoodClose" class="btn" data-toggle="modal" data-target="#editFood">Close</button>
         </div>
     </div>
+
+    <div id="editGoals" class="modal hide fade">
+        <div class="modal-header">
+            Goals
+        </div>
+        <div class="modal-body">
+            <div>Calories: <input type="number" class="input-small" id="editGoalCalories"></div>
+            <div>Fat: <input type="number" class="input-small" id="editGoalFat"></div> 
+            <div>Carbs: <input type="number" class="input-small" id="editGoalCarbs"></div>
+            <div>Protein: <input type="number" class="input-small" id="editGoalProtein"></div>
+        </div>
+        <div class="modal-footer">
+            <button id="editGoalsSave" class="btn btn-primary">Save</button>
+            <button id="showGoalsClose" class="btn" data-toggle="modal" data-target="#editGoals">Close</button>
+        </div>
+    </div>
+
 
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
