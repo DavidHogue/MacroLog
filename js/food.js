@@ -2,7 +2,7 @@ define(["jquery", "api"], function($, api) {
     
     "use strict";
 
-    var adding = true;
+    var food = null;
     
     function listFoods() {
         api.loadFoods().done(function(foods) {
@@ -21,9 +21,9 @@ define(["jquery", "api"], function($, api) {
     }
     
     function viewFood() {
-        adding = false;
         var id = $("#foodList").val();
-        api.getFood(id).done(function(food) {
+        api.getFood(id).done(function(f) {
+            food = f;
             $("#showFoodName").text(food.name);
             $("#showFoodCalories").text(food.calories);
             $("#showFoodFat").text(food.fat);
@@ -36,7 +36,8 @@ define(["jquery", "api"], function($, api) {
     
     function editFood() {
         var id = $("#foodList").val();
-        api.getFood(id).done(function(food) {
+        api.getFood(id).done(function(f) {
+            food = f;
             $("#editFoodName").val(food.name);
             $("#editFoodCalories").val(food.calories);
             $("#editFoodFat").val(food.fat);
@@ -44,6 +45,20 @@ define(["jquery", "api"], function($, api) {
             $("#editFoodCarb").val(food.carb);
             $("#editFoodProtein").val(food.protein);
             $("#editFood").modal("show");
+        });
+    }
+    
+    function saveEditFood() {        
+        food.name = $("#editFoodName").val();
+        food.calories = $("#editFoodCalories").val();
+        food.fat = $("#editFoodFat").val();
+        food.saturatedFat = $("#editFoodSaturatedFat").val();
+        food.carb = $("#editFoodCarb").val();
+        food.protein = $("#editFoodProtein").val();
+        api.editFood(food).done(function() {
+            listFoods();
+            $("#editFood").modal("hide");
+            food = null;
         });
     }
     
@@ -59,7 +74,7 @@ define(["jquery", "api"], function($, api) {
     }
     
     function saveNewFood() {
-        var food = { 
+        food = { 
             type: "food",
             name: $("#editFoodName").val(),
             calories: parseFloat($("#editFoodCalories").val()) || 0,
@@ -70,16 +85,16 @@ define(["jquery", "api"], function($, api) {
         };
         api.addFood(food).done(function() {
             listFoods();
-            $("#editFoodSave").unbind("click");
             $("#editFood").modal("hide");
+            food = null;
         });
     }
     
     function saveFood() {
-        if (adding) {
-            saveNewFood();
+        if (food || food._id) {
+            saveEditFood();
         } else {
-            editFood();
+            saveNewFood();
         }
     }
     
