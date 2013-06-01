@@ -1,4 +1,4 @@
-define(["jquery", "api", "search"], function($, api, search) {
+define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko) {
     
     "use strict";
 
@@ -85,11 +85,21 @@ define(["jquery", "api", "search"], function($, api, search) {
         }
     }
     
+    var appViewModel = {
+        firstName: "Bert",
+        lastName: "Bertington",
+        save: function(model) {
+            console.log(JSON.stringify(model));
+        }
+    };
+    
     $(function() {
         $("#add").click(addFood);
         $("#viewFoodButton").click(viewFood);
         $("#editFoodButton").click(editFood);
         $("#addFoodButton").click(addFood);
         $("#editFoodSave").click(saveFood);
+        
+        ko.applyBindings(appViewModel);
     });
 });
