@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>MacroLog - Track daily macronutrients, food calories, and weight</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style>
+    
+        /* http://www.fsis.usda.gov/pdf/nutrition_panel_format.pdf */
+        /* (All pt sizes are converted to px by multiplying by 1.75) */
+        /* 8pt Helvetica Regular with 4 points of leading */
+        .nutrition-facts {
+            border: 1px solid black; 
+            width: 300px; 
+            padding: 3px; 
+            font-size: 14px; 
+            font-family: Helvetica Regular, Helvetica, sans-serif;
+        }
+        
+        /* Franklin Gothic Heavy or Helvetica Black, flush left & flush right, no smaller than 13pt */
+        .nutrition-facts h1 {
+            font-size: 37px; 
+            letter-spacing: 1px; 
+            line-height: 100%; 
+            font-family: "Franklin Gothic Heavy", "Helvetica Black", sans-serif;
+            margin: 0;
+        }
+        
+        /* 3pt rule */
+        .nutrition-facts hr {
+            height: 5.25px; 
+            background-color: black;
+            border: none;
+            margin: 0;
+        }  
+        
+        /* 7pt rule */
+        .nutrition-facts hr.thick {
+            height: 12.25px;
+        }
+        
+        /* All labels enclosed by 1/2 point box rule within 3 points of text measure */
+        /* 1/4pt rule centered between nutrients (2pts leading above and 2pts below */
+        .nutrition-facts p {
+            border-top: 1px solid black;
+            margin: 0;
+            clear: both;
+            padding: 2px 0;
+        }
+        
+        /* 6pt Helvetica black */
+        .nutrition-facts h2 {
+            font-size: 10.5px;
+            margin: 0;
+            padding: 0;
+            line-height: 150%;
+            font-family: Helvetica Black, Helvetica, sans-serif;
+        }
+        
+        /* Type below vitamins and minerals (footnotes) is 6pt with 1pt of leading */
+        .nutrition-facts footer {
+            font-size: 10.5px;
+            line-height: 13px;
+        }
+        
+        /* Helvetica regular 8pt with 1pt of leading */
+        .nutrition-facts .servings {
+        }
+        
+        /* 8pt Helvetica Black with 4 pts of leading */
+        .nutrition-facts strong {
+            font-family: Helvetica Black, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+        
+        .nutrition-facts .subnutrient {
+            padding-left: 15px;
+        }
+        
+        /* 8pt Helvetica Regular, 4pt of leading with 10pt bullets */
+        .nutrition-facts .vitamins {
+        }
+        
+        .nutrition-facts .right {
+            float: right;
+        }
+        
+        .nutrition-facts .left {
+            float: left;
+        }
+        
+        .nutrition-facts .clear {
+            clear: both;
+        }        
+        .nutrition-facts .input-mini {
+            height: 16px;
+            width: 30px;
+            padding: 0 4px;
+            margin: 0;
+            border-radius: 2px;
+            line-height: 16px;
+            position: relative;
+            top: -1px;
+        }
+        .nutrition-facts .btn {
+            height: 18px;
+            padding: 0 4px;
+            line-height: 16px;
+            position: relative;
+            top: -1px;
+        }
+        .nutrition-facts .input-append {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <section class="nutrition-facts" style="float: left; margin:20px">
+            <h1>
+                Nutrition Facts
+            </h1>
+            <div class="servints">
+                Serving Size 1 cup (228g)
+            </div>
+            <div class="servings">
+                Servings Per Container 2
+            </div>
+            <hr class="thick" />
+            <div>
+                <strong>Amount Per Serving</strong>
+            </div>
+            <div>
+                <strong>Calories</strong> 280
+                <span class="right">Calories from Fat 120</span>
+            </div>
+            <hr />
+            <h2>
+                <span class="right">% Daily Value*</span>
+            </h2>
+            <p>
+                <strong>Total Fat</strong> 13g
+                <span class="right"><strong>20</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Saturated Fat 5g
+                <span class="right"><strong>25</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Trans Fat 2g
+            </p>
+            <p>
+                <strong>Cholesterol</strong> 30mg
+                <span class="right"><strong>10</strong>%</span>
+            </p>
+            <p>
+                <strong>Sodium</strong> 680mg
+                <span class="right"><strong>28</strong>%</span>
+            </p>
+            <p>
+                <strong>Total Carbohydrates</strong> 31g
+                <span class="right"><strong>10</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Dietary Fiber 0g
+                <span class="right"><strong>0</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Sugars 5g
+            </p>
+            <p>
+                <strong>Protein</strong> 31g
+            </p>
+            <hr class="thick" />
+            <p>
+                Vitamin A 4%
+                <span class="right">Vitamin C 2%</span>
+            </p>
+            <p>
+                Calcium 15%
+                <span class="right">Iron 4%</span>
+            </p>
+            
+            <footer>
+                <p>
+                    * Percent Daily Values is based on a 2,000 calorie diet. Your Daily Values may be higher or lower depending on your calorie needs.
+                </p>
+            </footer>
+        </section>
+
+        
+        <section class="nutrition-facts" style="float: left; margin:20px">
+            <h1>
+                Nutrition Facts
+            </h1>
+            <div class="servints">
+                Serving Size 
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            cup <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">cup</a></li>
+                            <li><a href="#">oz</a></li>
+                        </ul>
+                    </span>
+                </span>
+                (<span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">lbs</a></li>
+                        </ul>
+                    </span>
+                </span>)
+            </div>
+            <div class="servings">
+                Servings Per Container <input type="text" class="input-mini">
+            </div>
+            <hr class="thick" />
+            <div>
+                <strong>Amount Per Serving</strong>
+            </div>
+            <div>
+                <strong>Calories</strong> <input type="text" class="input-mini">
+                <span class="right">Calories from Fat <input type="text" class="input-mini"></span>
+            </div>
+            <hr />
+            <h2>
+                <span class="right">% Daily Value*</span>
+            </h2>
+            <p>
+                <strong>Total Fat</strong>
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                    </span>
+                </span>
+                <span class="right"><strong>20</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Saturated Fat 5g
+                <span class="right"><strong>25</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Trans Fat 2g
+            </p>
+            <p>
+                <strong>Cholesterol</strong> 30mg
+                <span class="right"><strong>10</strong>%</span>
+            </p>
+            <p>
+                <strong>Sodium</strong> 680mg
+                <span class="right"><strong>28</strong>%</span>
+            </p>
+            <p>
+                <strong>Total Carbohydrates</strong> 31g
+                <span class="right"><strong>10</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Dietary Fiber 0g
+                <span class="right"><strong>0</strong>%</span>
+            </p>
+            <p class="subnutrient">
+                Sugars 5g
+            </p>
+            <p>
+                <strong>Protein</strong> 31g
+            </p>
+            <hr class="thick" />
+            <p>
+                Vitamin A 4%
+                <span class="right">Vitamin C 2%</span>
+            </p>
+            <p>
+                Calcium 15%
+                <span class="right">Iron 4%</span>
+            </p>
+            
+            <footer>
+                <p>
+                    * Percent Daily Values is based on a 2,000 calorie diet. Your Daily Values may be higher or lower depending on your calorie needs.
+                </p>
+            </footer>
+        </section>
+
+    </div>
+            
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
