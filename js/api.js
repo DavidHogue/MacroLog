@@ -13,12 +13,31 @@ define(["config"], function(config) {
                 results = [],
                 i,
                 food;
-            for (i = 0; i < parsed.total_rows; i++) {
+            for (i = 0; i < parsed.rows.length; i++) {
                 food = parsed.rows[i].value;
-                food.calories = food.calories;
-                food.fat = food.fat;
-                food.carb = food.carb;
-                food.protein = food.protein;
+                results.push(food);
+            }
+            deferred.resolve(results);
+        });
+
+        return deferred;
+    }
+    
+    function searchFoods(input) {
+        var deferred = new $.Deferred();
+
+        $.ajax(config.database + "/_design/foods/_view/search?limit=10", {
+            type: "GET",
+            data: {
+                key: JSON.stringify(input),
+            }
+        }).done(function(data) {
+            var parsed = JSON.parse(data),
+                results = [],
+                i,
+                food;
+            for (i = 0; i < parsed.rows.length; i++) {
+                food = parsed.rows[i].value;
                 results.push(food);
             }
             deferred.resolve(results);
@@ -225,6 +244,7 @@ define(["config"], function(config) {
         
     return { 
         loadFoods: loadFoods,
+        searchFoods: searchFoods,
         getFood: getFood,
         addFood: addFood,
         editFood: editFood,
