@@ -2,6 +2,8 @@ define(["jquery", "api"], function($, api) {
     
     "use strict";
 
+    var adding = true;
+    
     function listFoods() {
         api.loadFoods().done(function(foods) {
             var $foodList = $("#foodList");
@@ -19,6 +21,7 @@ define(["jquery", "api"], function($, api) {
     }
     
     function viewFood() {
+        adding = false;
         var id = $("#foodList").val();
         api.getFood(id).done(function(food) {
             $("#showFoodName").text(food.name);
@@ -40,51 +43,44 @@ define(["jquery", "api"], function($, api) {
             $("#editFoodSaturatedFat").val(food.saturatedFat);
             $("#editFoodCarb").val(food.carb);
             $("#editFoodProtein").val(food.protein);
-            
-            $("#editFoodSave").click(function() {
-                food.name = $("#editFoodName").val();
-                food.calories = $("#editFoodCalories").val();
-                food.fat = $("#editFoodFat").val();
-                food.saturatedFat = $("#editFoodSaturatedFat").val();
-                food.carb = $("#editFoodCarb").val();
-                food.protein = $("#editFoodProtein").val();
-                api.editFood(food).done(function() {
-                    listFoods();
-                    $("#editFoodSave").unbind("click");
-                    $("#editFood").modal("hide");
-                });
-            });
-            
             $("#editFood").modal("show");
         });
     }
     
     function addFood() {
+        adding = true;
         $("#editFoodName").val("");
         $("#editFoodCalories").val(0);
         $("#editFoodFat").val(0);
         $("#editFoodSaturatedFat").val();
         $("#editFoodCarb").val(0);
-        $("#editFoodProtein").val(0);
-            
-        $("#editFoodSave").click(function() {
-            var food = { 
-                type: "food",
-                name: $("#editFoodName").val(),
-                calories: parseFloat($("#editFoodCalories").val()) || 0,
-                fat: parseFloat($("#editFoodFat").val()) || 0,
-                saturatedFat: parseFloat($("#editFoodSaturatedFat").val()),
-                carb: parseFloat($("#editFoodCarb").val()) || 0,
-                protein: parseFloat($("#editFoodProtein").val()) || 0
-            };
-            api.addFood(food).done(function() {
-                listFoods();
-                $("#editFoodSave").unbind("click");
-                $("#editFood").modal("hide");
-            });
-        });
-            
+        $("#editFoodProtein").val(0);            
         $("#editFood").modal("show");
+    }
+    
+    function saveNewFood() {
+        var food = { 
+            type: "food",
+            name: $("#editFoodName").val(),
+            calories: parseFloat($("#editFoodCalories").val()) || 0,
+            fat: parseFloat($("#editFoodFat").val()) || 0,
+            saturatedFat: parseFloat($("#editFoodSaturatedFat").val()),
+            carb: parseFloat($("#editFoodCarb").val()) || 0,
+            protein: parseFloat($("#editFoodProtein").val()) || 0
+        };
+        api.addFood(food).done(function() {
+            listFoods();
+            $("#editFoodSave").unbind("click");
+            $("#editFood").modal("hide");
+        });
+    }
+    
+    function saveFood() {
+        if (adding) {
+            saveNewFood();
+        } else {
+            editFood();
+        }
     }
     
     $(function() {
@@ -93,5 +89,6 @@ define(["jquery", "api"], function($, api) {
         $("#viewFoodButton").click(viewFood);
         $("#editFoodButton").click(editFood);
         $("#addFoodButton").click(addFood);
+        $("#editFoodSave").click(saveFood);
     });
 });
