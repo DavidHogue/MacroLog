@@ -23,7 +23,7 @@
         });
     }
     
-    function getSelectedFood() {
+    function getSelectedFoodId() {
         if (!nameToIdMap)
             return null;
         
@@ -31,10 +31,7 @@
         if (!nameToIdMap[search])
             return null;
             
-        return {
-            id: nameToIdMap[search],
-            name: search
-        };
+        return nameToIdMap[search];
     }
  
     $(function() {
@@ -44,7 +41,7 @@
     });
     
     return {
-        getSelectedFood: getSelectedFood
+        getSelectedFoodId: getSelectedFoodId
     };
     
  });

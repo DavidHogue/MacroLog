@@ -92,15 +92,7 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
     }
 
     function logFood() {
-        var id;
-        if ($("#foodList").is(":visible"))
-            id = $("#foodList").val();
-        else {
-            var food = search.getSelectedFood();
-            if (food)
-                id = food.id;
-        }
-            
+        var id = search.getSelectedFoodId();
         if (!id)
             return;
     
