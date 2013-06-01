@@ -53,10 +53,10 @@ define(["jquery", "api", "date"], function($, api, date) {
         $row.find(".name").text(food.name);
         if (qty !== 1)
             $row.find(".name").append('<small class="muted"> x' + qty + "</small>");
-        $row.find(".calories").text(food.calories * qty);
-        $row.find(".fat").text(food.fat * qty);
-        $row.find(".carb").text(food.carb * qty);
-        $row.find(".protein").text(food.protein * qty);
+        $row.find(".calories").text(Math.round(food.calories * qty));
+        $row.find(".fat").text(Math.round(food.fat * qty));
+        $row.find(".carb").text(Math.round(food.carb * qty));
+        $row.find(".protein").text(Math.round(food.protein * qty));
         
         if (log) {
             $row.find(".buttons .btn")

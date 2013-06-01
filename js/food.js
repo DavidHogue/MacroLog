@@ -24,6 +24,7 @@ define(["jquery", "api"], function($, api) {
             $("#showFoodName").text(food.name);
             $("#showFoodCalories").text(food.calories);
             $("#showFoodFat").text(food.fat);
+            $("#showFoodSaturatedFat").text(food.saturatedFat);
             $("#showFoodCarb").text(food.carb);
             $("#showFoodProtein").text(food.protein);
             $("#showFood").modal("show");
@@ -36,6 +37,7 @@ define(["jquery", "api"], function($, api) {
             $("#editFoodName").val(food.name);
             $("#editFoodCalories").val(food.calories);
             $("#editFoodFat").val(food.fat);
+            $("#editFoodSaturatedFat").val(food.saturatedFat);
             $("#editFoodCarb").val(food.carb);
             $("#editFoodProtein").val(food.protein);
             
@@ -43,6 +45,7 @@ define(["jquery", "api"], function($, api) {
                 food.name = $("#editFoodName").val();
                 food.calories = $("#editFoodCalories").val();
                 food.fat = $("#editFoodFat").val();
+                food.saturatedFat = $("#editFoodSaturatedFat").val();
                 food.carb = $("#editFoodCarb").val();
                 food.protein = $("#editFoodProtein").val();
                 api.editFood(food).done(function() {
@@ -60,6 +63,7 @@ define(["jquery", "api"], function($, api) {
         $("#editFoodName").val("");
         $("#editFoodCalories").val(0);
         $("#editFoodFat").val(0);
+        $("#editFoodSaturatedFat").val();
         $("#editFoodCarb").val(0);
         $("#editFoodProtein").val(0);
             
@@ -69,6 +73,7 @@ define(["jquery", "api"], function($, api) {
                 name: $("#editFoodName").val(),
                 calories: parseFloat($("#editFoodCalories").val()) || 0,
                 fat: parseFloat($("#editFoodFat").val()) || 0,
+                saturatedFat: parseFloat($("#editFoodSaturatedFat").val()),
                 carb: parseFloat($("#editFoodCarb").val()) || 0,
                 protein: parseFloat($("#editFoodProtein").val()) || 0
             };
