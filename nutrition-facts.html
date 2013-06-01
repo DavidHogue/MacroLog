@@ -40,7 +40,7 @@
         
         /* All labels enclosed by 1/2 point box rule within 3 points of text measure */
         /* 1/4pt rule centered between nutrients (2pts leading above and 2pts below */
-        .nutrition-facts p {
+        .nutrition-facts p, .nutrition-facts .nutrient {
             border-top: 1px solid black;
             margin: 0;
             clear: both;
@@ -110,6 +110,7 @@
         }
         .nutrition-facts .input-append {
             margin: 0;
+            line-height: 18px;
         }
     </style>
 </head>
@@ -236,7 +237,7 @@
             <h2>
                 <span class="right">% Daily Value*</span>
             </h2>
-            <p>
+            <div class="nutrient">
                 <strong>Total Fat</strong>
                 <span class="input-append">
                     <input type="text" class="input-mini">
@@ -244,47 +245,147 @@
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             g <span class="caret"></span>
                         </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
                     </span>
                 </span>
-                <span class="right"><strong>20</strong>%</span>
-            </p>
-            <p class="subnutrient">
-                Saturated Fat 5g
-                <span class="right"><strong>25</strong>%</span>
-            </p>
-            <p class="subnutrient">
-                Trans Fat 2g
-            </p>
-            <p>
-                <strong>Cholesterol</strong> 30mg
-                <span class="right"><strong>10</strong>%</span>
-            </p>
-            <p>
-                <strong>Sodium</strong> 680mg
-                <span class="right"><strong>28</strong>%</span>
-            </p>
-            <p>
-                <strong>Total Carbohydrates</strong> 31g
-                <span class="right"><strong>10</strong>%</span>
-            </p>
-            <p class="subnutrient">
-                Dietary Fiber 0g
-                <span class="right"><strong>0</strong>%</span>
-            </p>
-            <p class="subnutrient">
-                Sugars 5g
-            </p>
-            <p>
-                <strong>Protein</strong> 31g
-            </p>
+                <span class="right"><input type="text" class="input-mini">%</span>
+            </div>
+            <div class="nutrient subnutrient">
+                Saturated Fat
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+                <span class="right"><input type="text" class="input-mini">%</span>
+            </div>
+            <div class="nutrient subnutrient">
+                Trans Fat
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+            </div>
+            <div class="nutrient">
+                <strong>Cholesterol</strong>
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            mg <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+                <span class="right"><input type="text" class="input-mini">%</span>
+             </div>
+            <div class="nutrient">
+                <strong>Sodium</strong>
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            mg <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+                <span class="right"><input type="text" class="input-mini">%</span>
+            </div>
+            <div class="nutrient">
+                <strong>Total Carbohydrates</strong>
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+                <span class="right"><input type="text" class="input-mini">%</span>
+            </div>
+            <div class="nutrient subnutrient">
+                Dietary Fiber
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+                <span class="right"><input type="text" class="input-mini">%</span>
+            </div>
+            <div class="nutrient subnutrient">
+                Sugars
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+            </div>
+            <div class="nutrient">
+                <strong>Protein</strong>
+                <span class="input-append">
+                    <input type="text" class="input-mini">
+                    <span class="btn-group">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            g <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">g</a></li>
+                            <li><a href="#">mg</a></li>
+                        </ul>
+                    </span>
+                </span>
+            </div>
             <hr class="thick" />
             <p>
-                Vitamin A 4%
-                <span class="right">Vitamin C 2%</span>
+                Vitamin A <input type="text" class="input-mini">%
+                <span class="right">Vitamin C <input type="text" class="input-mini">%</span>
             </p>
             <p>
-                Calcium 15%
-                <span class="right">Iron 4%</span>
+                Calcium <input type="text" class="input-mini">%
+                <span class="right">Iron <input type="text" class="input-mini">%</span>
             </p>
             
             <footer>
@@ -298,5 +399,16 @@
             
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+
+            $(".nutrition-facts .dropdown-menu li a").click(function(){
+                var $this = $(this);
+                var $button = $this.parents(".btn-group").find(".dropdown-toggle");
+                $button.text($this.text()).append(' <span class="caret"></span>');
+            });
+
+        });
+    </script>
 </body>
 </html>
