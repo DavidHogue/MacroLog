@@ -20,5 +20,6 @@ require([
     "food", 
     "log",
     "chart",
-    "goals"
+    "goals",
+    "search"
 ]);

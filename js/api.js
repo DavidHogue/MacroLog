@@ -34,11 +34,12 @@ define(["config"], function(config) {
         }).done(function(data) {
             var parsed = JSON.parse(data),
                 results = [],
-                i,
-                food;
+                i;
             for (i = 0; i < parsed.rows.length; i++) {
-                food = parsed.rows[i].value;
-                results.push(food);
+                results.push({ 
+                    id: parsed.rows[i].id, 
+                    name: parsed.rows[i].value
+                });
             }
             deferred.resolve(results);
         });

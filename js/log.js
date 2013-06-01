@@ -1,4 +1,4 @@
-define(["jquery", "api", "date"], function($, api, date) {
+define(["jquery", "api", "date", "search"], function($, api, date, search) {
     
     var totals,
         logChangedCallback;
@@ -92,10 +92,22 @@ define(["jquery", "api", "date"], function($, api, date) {
     }
 
     function logFood() {
+        var id;
+        if ($("#foodList").is(":visible"))
+            id = $("#foodList").val();
+        else {
+            var food = search.getSelectedFood();
+            if (food)
+                id = food.id;
+        }
+            
+        if (!id)
+            return;
+    
         // Get an object from the form data.
         var log = {
             type: "log",
-            food_id: $("#foodList").val(),
+            food_id: id,
             quantity: parseFloat($("#quantity").val()) || 1,
             date: date.prettyDate()
         };
