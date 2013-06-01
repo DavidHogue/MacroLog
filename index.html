@@ -3,6 +3,119 @@
 <head>
     <title>MacroLog - Track daily macronutrients, food calories, and weight</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <style>
+        #showFood .modal-body, #editFood .modal-body {
+            max-height: 600px;
+        }
+    
+        /* http://www.fsis.usda.gov/pdf/nutrition_panel_format.pdf */
+        /* (All pt sizes are converted to px by multiplying by 1.75) */
+        /* 8pt Helvetica Regular with 4 points of leading */
+        .nutrition-facts {
+            border: 1px solid black; 
+            width: 300px; 
+            padding: 3px; 
+            font-size: 14px; 
+            font-family: Helvetica Regular, Helvetica, sans-serif;
+        }
+        
+        /* Franklin Gothic Heavy or Helvetica Black, flush left & flush right, no smaller than 13pt */
+        .nutrition-facts h1 {
+            font-size: 37px; 
+            letter-spacing: 1px; 
+            line-height: 100%; 
+            font-family: "Franklin Gothic Heavy", "Helvetica Black", sans-serif;
+            margin: 0;
+        }
+        
+        /* 3pt rule */
+        .nutrition-facts hr {
+            height: 5.25px; 
+            background-color: black;
+            border: none;
+            margin: 0;
+        }  
+        
+        /* 7pt rule */
+        .nutrition-facts hr.thick {
+            height: 12.25px;
+        }
+        
+        /* All labels enclosed by 1/2 point box rule within 3 points of text measure */
+        /* 1/4pt rule centered between nutrients (2pts leading above and 2pts below */
+        .nutrition-facts p, .nutrition-facts .nutrient {
+            border-top: 1px solid black;
+            margin: 0;
+            clear: both;
+            padding: 2px 0;
+        }
+        
+        /* 6pt Helvetica black */
+        .nutrition-facts h2 {
+            font-size: 10.5px;
+            margin: 0;
+            padding: 0;
+            line-height: 150%;
+            font-family: Helvetica Black, Helvetica, sans-serif;
+        }
+        
+        /* Type below vitamins and minerals (footnotes) is 6pt with 1pt of leading */
+        .nutrition-facts footer {
+            font-size: 10.5px;
+            line-height: 13px;
+        }
+        
+        /* Helvetica regular 8pt with 1pt of leading */
+        .nutrition-facts .servings {
+        }
+        
+        /* 8pt Helvetica Black with 4 pts of leading */
+        .nutrition-facts strong {
+            font-family: Helvetica Black, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+        
+        .nutrition-facts .subnutrient {
+            padding-left: 15px;
+        }
+        
+        /* 8pt Helvetica Regular, 4pt of leading with 10pt bullets */
+        .nutrition-facts .vitamins {
+        }
+        
+        .nutrition-facts .right {
+            float: right;
+        }
+        
+        .nutrition-facts .left {
+            float: left;
+        }
+        
+        .nutrition-facts .clear {
+            clear: both;
+        }        
+        .nutrition-facts .input-mini {
+            height: 16px;
+            width: 30px;
+            padding: 0 4px;
+            margin: 0;
+            border-radius: 2px;
+            line-height: 16px;
+            position: relative;
+            top: -1px;
+        }
+        .nutrition-facts .btn {
+            height: 18px;
+            padding: 0 4px;
+            line-height: 16px;
+            position: relative;
+            top: -1px;
+        }
+        .nutrition-facts .input-append {
+            margin: 0;
+            line-height: 18px;
+        }
+    </style>    
 </head>
 <body>
 
@@ -101,35 +214,79 @@
     
     
     <div id="showFood" class="modal hide fade">
-        <div class="modal-header">
-            <div>Name: <span id="showFoodName"></span></div>
-        </div>
         <div class="modal-body">
-            <div>Calories: <span id="showFoodCalories"></span></div>
-            <div>Fat: <span id="showFoodFat"></span></div> 
-            <div>Carbs: <span id="showFoodCarb"></span></div>
-            <div>Protein: <span id="showFoodProtein"></span></div>
-            
-            <div style="border: 1px solid black; width: 300px; padding: 2px; font-size: 12px; font-family: Helvetica, sans-serif">
-                <div style='font-size: 36px; letter-spacing: 3px; line-height: 100%; font-family: "Franklin Gothic Heavy", "Helvetica Black", sans-serif'>
+            <section class="nutrition-facts">
+                <h1>
                     Nutrition Facts
+                </h1>
+                <div class="servints">
+                    Serving Size <span></span>
                 </div>
-                <div>
-                    Serving Size 1 cup (228g)
+                <div class="servings">
+                    Servings Per Container <span></span>
                 </div>
-                <div>
-                    Servings Per Container 2
-                </div>
-                <div style="height: 7px; background-color: black"></div>
+                <hr class="thick" />
                 <div>
                     <strong>Amount Per Serving</strong>
                 </div>
                 <div>
-                    <strong>Calories</strong> 280
-                    <span style="float: right">Calories from Fat 120</span>
+                    <strong>Calories</strong> <span id="showFoodCalories"></span>
+                    <span class="right">Calories from Fat <span></span></span>
                 </div>
-                <div style="height: 3px; background-color: black"></div>
-            </div>
+                <hr />
+                <h2>
+                    <span class="right">% Daily Value*</span>
+                </h2>
+                <p>
+                    <strong>Total Fat</strong> <span id="showFoodFat"></span>g
+                    <span class="right"><strong><span></span></strong>%</span>
+                </p>
+                <p class="subnutrient">
+                    Saturated Fat <span></span>
+                    <span class="right"><strong><span></span></strong>%</span>
+                </p>
+                <p class="subnutrient">
+                    Trans Fat <span></span>
+                </p>
+                <p>
+                    <strong>Cholesterol</strong> <span></span>
+                    <span class="right"><strong><span></span></strong>%</span>
+                </p>
+                <p>
+                    <strong>Sodium</strong> <span></span>
+                    <span class="right"><strong><span></span></strong>%</span>
+                </p>
+                <p>
+                    <strong>Total Carbohydrates</strong> <span id="showFoodCarb"></span>g
+                    <span class="right"><strong><span></span></strong>%</span>
+                </p>
+                <p class="subnutrient">
+                    Dietary Fiber <span></span>
+                    <span class="right"><strong><span></span></strong>%</span>
+                </p>
+                <p class="subnutrient">
+                    Sugars <span></span>
+                </p>
+                <p>
+                    <strong>Protein</strong> <span id="showFoodProtein"></span>
+                </p>
+                <hr class="thick" />
+                <p>
+                    Vitamin A <span></span>%
+                    <span class="right">Vitamin C <span></span>%</span>
+                </p>
+                <p>
+                    Calcium <span></span>%
+                    <span class="right">Iron <span></span>%</span>
+                </p>
+                
+                <footer>
+                    <p>
+                        * Percent Daily Values is based on a 2,000 calorie diet. Your Daily Values may be higher or lower depending on your calorie needs.
+                    </p>
+                </footer>
+            </section>
+
         </div>
         <div class="modal-footer">
             <button id="showFoodClose" class="btn btn-primary" data-toggle="modal" data-target="#showFood">Close</button>
@@ -141,10 +298,209 @@
             <div>Name: <input type="text" id="editFoodName"></div>
         </div>
         <div class="modal-body">
-            <div>Calories: <input type="number" class="input-small" id="editFoodCalories"></span></div>
-            <div>Fat: <input type="number" class="input-small" id="editFoodFat"></span></div> 
-            <div>Carbs: <input type="number" class="input-small" id="editFoodCarb"></span></div>
-            <div>Protein: <input type="number" class="input-small" id="editFoodProtein"></span></div>
+            <section class="nutrition-facts" style="float: left; margin:20px">
+                <h1>
+                    Nutrition Facts
+                </h1>
+                <div class="servints">
+                    Serving Size 
+                    <span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                cup <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">cup</a></li>
+                                <li><a href="#">oz</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                    (<span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">lbs</a></li>
+                            </ul>
+                        </span>
+                    </span>)
+                </div>
+                <div class="servings">
+                    Servings Per Container <input type="text" class="input-mini">
+                </div>
+                <hr class="thick" />
+                <div>
+                    <strong>Amount Per Serving</strong>
+                </div>
+                <div>
+                    <strong>Calories</strong> <input type="text" class="input-mini" id="editFoodCalories">
+                    <span class="right">Calories from Fat <input type="text" class="input-mini"></span>
+                </div>
+                <hr />
+                <h2>
+                    <span class="right">% Daily Value*</span>
+                </h2>
+                <div class="nutrient">
+                    <strong>Total Fat</strong>
+                    <span class="input-append">
+                        <input type="text" class="input-mini" id="editFoodFat">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                    <span class="right"><input type="text" class="input-mini">%</span>
+                </div>
+                <div class="nutrient subnutrient">
+                    Saturated Fat
+                    <span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                    <span class="right"><input type="text" class="input-mini">%</span>
+                </div>
+                <div class="nutrient subnutrient">
+                    Trans Fat
+                    <span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                </div>
+                <div class="nutrient">
+                    <strong>Cholesterol</strong>
+                    <span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                mg <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                    <span class="right"><input type="text" class="input-mini">%</span>
+                 </div>
+                <div class="nutrient">
+                    <strong>Sodium</strong>
+                    <span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                mg <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                    <span class="right"><input type="text" class="input-mini">%</span>
+                </div>
+                <div class="nutrient">
+                    <strong>Total Carbohydrates</strong>
+                    <span class="input-append">
+                        <input type="text" class="input-mini" id="editFoodCarb">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                    <span class="right"><input type="text" class="input-mini">%</span>
+                </div>
+                <div class="nutrient subnutrient">
+                    Dietary Fiber
+                    <span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                    <span class="right"><input type="text" class="input-mini">%</span>
+                </div>
+                <div class="nutrient subnutrient">
+                    Sugars
+                    <span class="input-append">
+                        <input type="text" class="input-mini">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                </div>
+                <div class="nutrient">
+                    <strong>Protein</strong>
+                    <span class="input-append">
+                        <input type="text" class="input-mini" id="editFoodProtein">
+                        <span class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                g <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">g</a></li>
+                                <li><a href="#">mg</a></li>
+                            </ul>
+                        </span>
+                    </span>
+                </div>
+                <hr class="thick" />
+                <p>
+                    Vitamin A <input type="text" class="input-mini">%
+                    <span class="right">Vitamin C <input type="text" class="input-mini">%</span>
+                </p>
+                <p>
+                    Calcium <input type="text" class="input-mini">%
+                    <span class="right">Iron <input type="text" class="input-mini">%</span>
+                </p>
+                
+                <footer>
+                    <p>
+                        * Percent Daily Values is based on a 2,000 calorie diet. Your Daily Values may be higher or lower depending on your calorie needs.
+                    </p>
+                </footer>
+            </section>
         </div>
         <div class="modal-footer">
             <button id="editFoodSave" class="btn btn-primary">Save</button>
