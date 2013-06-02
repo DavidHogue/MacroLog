@@ -118,7 +118,7 @@
                     <strong>Amount Per Serving</strong>
                 </div>
                 <div>
-                    <strong>Calories</strong> <span id="showFoodCalories"></span>
+                    <strong>Calories</strong> <span data-bind="text:calories"></span>
                     <span class="right">Calories from Fat <span></span></span>
                 </div>
                 <hr />
@@ -126,37 +126,37 @@
                     <span class="right">% Daily Value*</span>
                 </h2>
                 <p>
-                    <strong>Total Fat</strong> <span id="showFoodFat"></span>g
+                    <strong>Total Fat</strong> <span data-bind="text:fat"></span>g
                     <span class="right"><strong><span></span></strong>%</span>
                 </p>
                 <p class="subnutrient">
-                    Saturated Fat <span id="showFoodSaturatedFat"></span>
+                    Saturated Fat <span data-bind="text:saturatedFat"></span>g
                     <span class="right"><strong><span></span></strong>%</span>
                 </p>
                 <p class="subnutrient">
                     Trans Fat <span></span>
                 </p>
                 <p>
-                    <strong>Cholesterol</strong> <span></span>
+                    <strong>Cholesterol</strong> <span data-bind="text:transFat"></span>g
                     <span class="right"><strong><span></span></strong>%</span>
                 </p>
                 <p>
-                    <strong>Sodium</strong> <span></span>
+                    <strong>Sodium</strong> <span data-bind="text:sodium"></span>g
                     <span class="right"><strong><span></span></strong>%</span>
                 </p>
                 <p>
-                    <strong>Total Carbohydrates</strong> <span id="showFoodCarb"></span>g
+                    <strong>Total Carbohydrates</strong> <span data-bind="text:carb"></span>g
                     <span class="right"><strong><span></span></strong>%</span>
                 </p>
                 <p class="subnutrient">
-                    Dietary Fiber <span></span>
+                    Dietary Fiber <span data-bind="text:fiber"></span>
                     <span class="right"><strong><span></span></strong>%</span>
                 </p>
                 <p class="subnutrient">
-                    Sugars <span></span>
+                    Sugars <span data-bind="text:sugars"></span>g
                 </p>
                 <p>
-                    <strong>Protein</strong> <span id="showFoodProtein"></span>
+                    <strong>Protein</strong> <span data-bind="text:protein"></span>g
                 </p>
                 <hr class="thick" />
                 <p>
@@ -183,7 +183,7 @@
 
     <div id="editFood" class="modal hide fade">    
         <div class="modal-header">
-            <div>Name: <input type="text" id="editFoodName"></div>
+            <div>Name: <input type="text" data-bind="value:name"></div>
         </div>
         <div class="modal-body">
             <section class="nutrition-facts" style="float: left; margin:20px">
@@ -225,7 +225,7 @@
                     <strong>Amount Per Serving</strong>
                 </div>
                 <div>
-                    <strong>Calories</strong> <input type="text" class="input-mini" id="editFoodCalories">
+                    <strong>Calories</strong> <input type="text" class="input-mini" data-bind="value:calories">
                     <span class="right">Calories from Fat <input type="text" class="input-mini"></span>
                 </div>
                 <hr />
@@ -235,7 +235,7 @@
                 <div class="nutrient">
                     <strong>Total Fat</strong>
                     <span class="input-append">
-                        <input type="text" class="input-mini" id="editFoodFat">
+                        <input type="text" class="input-mini" data-bind="value:fat">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -251,7 +251,7 @@
                 <div class="nutrient subnutrient">
                     Saturated Fat
                     <span class="input-append">
-                        <input type="text" class="input-mini" id="editFoodSaturatedFat">
+                        <input type="text" class="input-mini" data-bind="value:saturatedFat">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -267,7 +267,7 @@
                 <div class="nutrient subnutrient">
                     Trans Fat
                     <span class="input-append">
-                        <input type="text" class="input-mini">
+                        <input type="text" class="input-mini" data-bind="value:transFat">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -282,7 +282,7 @@
                 <div class="nutrient">
                     <strong>Cholesterol</strong>
                     <span class="input-append">
-                        <input type="text" class="input-mini">
+                        <input type="text" class="input-mini" data-bind="value:cholesterol">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 mg <span class="caret"></span>
@@ -298,7 +298,7 @@
                 <div class="nutrient">
                     <strong>Sodium</strong>
                     <span class="input-append">
-                        <input type="text" class="input-mini">
+                        <input type="text" class="input-mini" data-bind="value:sodium">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 mg <span class="caret"></span>
@@ -314,7 +314,7 @@
                 <div class="nutrient">
                     <strong>Total Carbohydrates</strong>
                     <span class="input-append">
-                        <input type="text" class="input-mini" id="editFoodCarb">
+                        <input type="text" class="input-mini" data-bind="value:carb">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -330,7 +330,7 @@
                 <div class="nutrient subnutrient">
                     Dietary Fiber
                     <span class="input-append">
-                        <input type="text" class="input-mini">
+                        <input type="text" class="input-mini" data-bind="value:fiber">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -346,7 +346,7 @@
                 <div class="nutrient subnutrient">
                     Sugars
                     <span class="input-append">
-                        <input type="text" class="input-mini">
+                        <input type="text" class="input-mini" data-bind="value:sugars">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -361,7 +361,7 @@
                 <div class="nutrient">
                     <strong>Protein</strong>
                     <span class="input-append">
-                        <input type="text" class="input-mini" id="editFoodProtein">
+                        <input type="text" class="input-mini" data-bind="value:protein">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -410,12 +410,6 @@
             <button id="editGoalsSave" class="btn btn-primary">Save</button>
             <button id="showGoalsClose" class="btn" data-toggle="modal" data-target="#editGoals">Close</button>
         </div>
-    </div>
-
-    <div>
-        <p>First name: <strong data-bind="text: firstName"></strong></p>
-        <p>Last name: <strong data-bind="text: lastName"></strong></p>
-        <button class="btn" data-bind="click: save">Save</button>
     </div>
 
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>

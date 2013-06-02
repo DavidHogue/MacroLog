@@ -3,6 +3,24 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
     "use strict";
 
     var food = null;
+    var blankFood = { 
+            type: "food",
+            name: "",
+            calories: undefined,
+            fat: undefined,
+            saturatedFat: undefined,
+            transFat: undefined,
+            cholesterol: undefined,
+            sodium: undefined,
+            carb: undefined,
+            fiber: undefined,
+            sugars: undefined,
+            protein: undefined
+        };
+
+    function setCurrentFood(newFood) {
+        food = $.extend(blankFood, newFood); // Ensure it has all the right properties
+    }
     
     function viewFood() {
         var id = search.getSelectedFoodId();
@@ -10,16 +28,11 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
             return;
         
         api.getFood(id).done(function(f) {
-            food = f;
-            $("#showFoodName").text(food.name);
-            $("#showFoodCalories").text(food.calories);
-            $("#showFoodFat").text(food.fat);
-            $("#showFoodSaturatedFat").text(food.saturatedFat);
-            $("#showFoodCarb").text(food.carb);
-            $("#showFoodProtein").text(food.protein);
+            setCurrentFood(f);
+            ko.applyBindings(food);
             $("#showFood").modal("show");
         });
-    } 
+    }
     
     function editFood() {
         var id = search.getSelectedFoodId();
@@ -27,24 +40,14 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
             return;
 
         api.getFood(id).done(function(f) {
-            food = f;
-            $("#editFoodName").val(food.name);
-            $("#editFoodCalories").val(food.calories);
-            $("#editFoodFat").val(food.fat);
-            $("#editFoodSaturatedFat").val(food.saturatedFat);
-            $("#editFoodCarb").val(food.carb);
-            $("#editFoodProtein").val(food.protein);
+            setCurrentFood(f);
+            ko.applyBindings(food);
             $("#editFood").modal("show");
         });
     }
     
-    function saveEditFood() {        
-        food.name = $("#editFoodName").val();
-        food.calories = $("#editFoodCalories").val();
-        food.fat = $("#editFoodFat").val();
-        food.saturatedFat = $("#editFoodSaturatedFat").val();
-        food.carb = $("#editFoodCarb").val();
-        food.protein = $("#editFoodProtein").val();
+    function saveEditFood() {
+        // In theory knockoutjs should have set the food's properties by now.
         api.editFood(food).done(function() {
             $("#editFood").modal("hide");
             food = null;
@@ -85,21 +88,11 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
         }
     }
     
-    var appViewModel = {
-        firstName: "Bert",
-        lastName: "Bertington",
-        save: function(model) {
-            console.log(JSON.stringify(model));
-        }
-    };
-    
     $(function() {
         $("#add").click(addFood);
         $("#viewFoodButton").click(viewFood);
         $("#editFoodButton").click(editFood);
         $("#addFoodButton").click(addFood);
         $("#editFoodSave").click(saveFood);
-        
-        ko.applyBindings(appViewModel);
     });
 });
