@@ -11,6 +11,7 @@
         <h1>MacroLog</h1>
         <p class="lead">Track daily macronutrients, food calories, and weight</p>
 
+        <h3>Date</h3>
         <div>
             <button class="btn" id="prevDate"><i class="icon-circle-arrow-left"></i></button>
             <button class="btn" id="date"></button>
@@ -18,17 +19,15 @@
         </div>
         
         <h3>Add Food</h3>
-        <form>
+        <form class="form-horizontal">
             <input type="text" id="search" class="input-xxlarge" data-provide="typeahead" autocomplete="off">
             <input type="number" class="input-small" name="quantity" id="quantity" placeholder="quantity">
-            <div>
-                <button type="button" class="btn btn-primary" id="log">Log</button>
-                <span class="btn-group">
-                    <button type="button" class="btn" id="viewFoodButton">View</button>
-                    <button type="button" class="btn" id="editFoodButton">Edit</button>
-                    <button type="button" class="btn" id="addFoodButton">Add</button>
-                </span>
-            </div>
+            <button type="button" class="btn btn-primary" id="log">Add to log</button>
+            <span class="btn-group">
+                <button type="button" class="btn" id="viewFoodButton">View</button>
+                <button type="button" class="btn" id="editFoodButton">Edit</button>
+                <button type="button" class="btn" id="addFoodButton">New</button>
+            </span>
         </form>
        
         <h3>Log</h3>
@@ -51,6 +50,7 @@
             </tr>
         </table>
         
+        <h3>Goals</h3>
         <div id="goals">
             <div>
                 Calories: <span id="goalCalories"></span>
@@ -71,33 +71,6 @@
 
         <h3>Charts</h3>
         <div id="chart"></div>
-        
-        
-        <h3>Features implemented</h3>
-        <ul>
-            <li>Add foods</li>
-            <li>List foods</li>
-            <li>Food nutrition facts panel</li>
-        </ul>
-        
-        <h3>Features planned</h3>
-        <ul>
-            <li>Daily goals that can vary by day for macro cycling</li>
-            <li>Links to good online reading or books</li>
-            <li>Log by searching for food or by entering raw data</li>
-            <li>Graphs, w/ moving averages</li>
-            <li>Registration optional (enter only one day, no graphs)</li>
-            <li>Data export and import</li>
-            <li>Units converter</li>
-            <li>Mobile friendly layout</li>
-            <li>Security on foods</li>
-            <li>Food search as you type</li>
-            <li>Recipes that combine foods, + icon in listing shows sub-foods</li>
-            <li>Food units in weight, volume, servings. Autocalculate quantity when logging</li>
-            <li>Choose columns to display</li>
-            <li>Unit tests...</li>
-            <li>GitHub...</li>
-        </ul>
     </div>
     
     
