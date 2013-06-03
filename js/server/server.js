@@ -25,7 +25,9 @@ app.configure(function() {
     app.use(log);
     app.use(express.compress());
     app.use(express.bodyParser());
-    app.use(allowCrossDomain);
+    if (config.allowCrossDomain) {
+        app.use(allowCrossDomain);
+    }
 });
 
 app.options("/*", function(req, res) {
