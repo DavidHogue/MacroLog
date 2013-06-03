@@ -55,25 +55,13 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
     }
     
     function addFood() {
-        $("#editFoodName").val("");
-        $("#editFoodCalories").val(0);
-        $("#editFoodFat").val(0);
-        $("#editFoodSaturatedFat").val();
-        $("#editFoodCarb").val(0);
-        $("#editFoodProtein").val(0);            
+        food = $.extend(blankFood, {});
+        ko.applyBindings(food);
         $("#editFood").modal("show");
     }
     
     function saveNewFood() {
-        food = { 
-            type: "food",
-            name: $("#editFoodName").val(),
-            calories: parseFloat($("#editFoodCalories").val()) || 0,
-            fat: parseFloat($("#editFoodFat").val()) || 0,
-            saturatedFat: parseFloat($("#editFoodSaturatedFat").val()),
-            carb: parseFloat($("#editFoodCarb").val()) || 0,
-            protein: parseFloat($("#editFoodProtein").val()) || 0
-        };
+        // In theory knockoutjs should have set properties by now.
         api.addFood(food).done(function() {
             $("#editFood").modal("hide");
             food = null;
