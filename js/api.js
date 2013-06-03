@@ -2,6 +2,7 @@ define(["config"], function(config) {
 
     "use strict";
     
+    /*
     function loadFoods() {
         var deferred = new $.Deferred();
 
@@ -22,229 +23,76 @@ define(["config"], function(config) {
 
         return deferred;
     }
+    */
     
     function searchFoods(input) {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database + "/_design/foods/_view/search?limit=10", {
-            type: "GET",
-            data: {
-                key: JSON.stringify(input),
-            }
-        }).done(function(data) {
-            var parsed = JSON.parse(data),
-                results = [],
-                i;
-            for (i = 0; i < parsed.rows.length; i++) {
-                results.push({ 
-                    id: parsed.rows[i].id, 
-                    name: parsed.rows[i].value
-                });
-            }
-            deferred.resolve(results);
-        });
-
-        return deferred;
+        return $.ajax(config.api + "/food/search/" + encodeURIComponent(input));
     }
     
     function getFood(id) {
-        var deferred = new $.Deferred();
-
-        if (id) {
-            $.ajax(config.database + "/" + id, {
-                type: "GET"
-            }).done(function(data) {
-                var food = JSON.parse(data);
-                deferred.resolve(food);
-            });
-        } else {
-            deferred.resolve();
-        }        
-
-        return deferred;
+        return $.ajax(config.api + "/food/id/" + id);
     }
     
     function addFood(food) {
-        var deferred = new $.Deferred();
-    
-        // Write to db.
-        $.ajax(config.database, {
-            data: JSON.stringify(food),
-            contentType: "application/json",
-            type: "POST"
-        }).done(function () {
-            deferred.resolve();
-        });
-        
-        return deferred;
+        return $.ajax(config.api + "/food/save", {
+                    data: JSON.stringify(food),
+                    contentType: "application/json",
+                    type: "POST"
+                });
     }
     
     function editFood(food) {
-        var deferred = new $.Deferred();
-    
-        // Write to db.
-        $.ajax(config.database + "/" + food._id, {
-            data: JSON.stringify(food),
-            contentType: "application/json",
-            type: "PUT"
-        }).done(function () {
-            deferred.resolve();
-        });
-        
-        return deferred;
+        return addFood(food); // These have been combined with the node server api
     }
     
     function loadLog(date) {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database + "/_design/log/_view/date_full", {
-            type: "GET",
-            data: {
-                key: JSON.stringify(date),
-                include_docs: true
-            }
-        }).done(function(data) {
-            var parsed = JSON.parse(data),
-                results = [],
-                i,
-                log,
-                food;
-            for (i = 0; i < parsed.rows.length; i += 1) {
-                log = parsed.rows[i].value.log;
-                food = parsed.rows[i].doc;
-                results.push({ log: log, food: food });
-            }
-            
-            deferred.resolve(results);
-        });
-
-        return deferred;
+        return $.ajax(config.api + "/log/" + encodeURIComponent(date));
     }
     
     function logFood(log) {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database, {
-            data: JSON.stringify(log),
-            contentType: "application/json",
-            type: "POST"
-        }).done(function() {
-            deferred.resolve();
-        });
-        
-        return deferred;
+        return $.ajax(config.api + "/log/save", {
+                    data: JSON.stringify(log),
+                    contentType: "application/json",
+                    type: "POST"
+                });
     }
     
     function deleteLog(id, rev) {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database + "/" + encodeURIComponent(id) + "?rev=" + encodeURIComponent(rev), {
-            data: JSON.stringify({ rev: rev }),
-            contentType: "application/json",
-            type: "DELETE"
-        }).done(function() {
-            deferred.resolve();
-        });
-        
-        return deferred;
+        return $.ajax(config.api + "/log/delete/" + encodeURIComponent(id) + "/" + encodeURIComponent(rev), {
+                    type: "DELETE"
+                });
     }
     
     function saveDay(day) {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database + "/" + encodeURIComponent(day._id), {
-            data: JSON.stringify(day),
-            contentType: "application/json",
-            type: "PUT"
-        }).done(function() {
-            deferred.resolve();
-        });
-        
-        return deferred;
-    }
-    
-    function addDay(day) {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database, {
+        return $.ajax(config.api + "/day/save", {
             data: JSON.stringify(day),
             contentType: "application/json",
             type: "POST"
-        }).done(function() {
-            deferred.resolve();
         });
-        
-        return deferred;
     }
-        
-    function getDay(date) {
-        var deferred = new $.Deferred();
+    
+    function addDay(day) {
+        return saveDay(day); // These have been combined with the node server api
+    }
 
-        $.ajax(config.database + "/_design/day/_view/date", {
-            data: { key: JSON.stringify(date) },
-            type: "GET"
-        }).done(function(data) {
-            var parsed = JSON.parse(data);
-            var day;
-            if (parsed.rows.length == 1)
-                day = parsed.rows[0].value;
-            else
-                day = null;
-            deferred.resolve(day);
-        });
-        
-        return deferred;
+    function getDay(date) {
+        return $.ajax(config.api + "/day/" + encodeURIComponent(date));
     }
     
     function getGoals() {
-        var deferred = new $.Deferred();
-
-        $.ajax(config.database + "/_design/goals/_view/all", {
-            type: "GET"
-        }).done(function(data) {
-            var parsed = JSON.parse(data);
-            var goal;
-            if (parsed.rows.length == 1)
-                goal = parsed.rows[0].value;
-            else
-                goal = null;
-            deferred.resolve(goal);
-        });
-        
-        return deferred;
+        return $.ajax(config.api + "/goals");
     }    
     
     function saveGoals(goal) {
-        var deferred = new $.Deferred(),
-            url,
-            method
-
-        if (goal && goal._id) {
-            url = config.database + "/" + encodeURIComponent(goal._id);
-            method = "PUT";
-        } else {
-            url = config.database;
-            method = "POST";
-        }        
-        
-        $.ajax(url, {
-            data: JSON.stringify(goal),
-            contentType: "application/json",
-            type: method
-        }).done(function(response) {
-            var data = JSON.parse(response);
-            if (data.ok) {
-                goal._id = data.id;
-                goal._rev = data.rev;
-            }
-            deferred.resolve();
-        });
-        
-        return deferred;
+        return $.ajax(config.api + "/goals/save", {
+                    data: JSON.stringify(goal),
+                    contentType: "application/json",
+                    type: "POST"
+                });
     }
         
     return { 
-        loadFoods: loadFoods,
+        //loadFoods: loadFoods,
         searchFoods: searchFoods,
         getFood: getFood,
         addFood: addFood,
