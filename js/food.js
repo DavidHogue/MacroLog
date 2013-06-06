@@ -6,20 +6,20 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
     var blankFood = { 
             type: "food",
             name: "",
-            calories: undefined,
-            fat: undefined,
-            saturatedFat: undefined,
-            transFat: undefined,
-            cholesterol: undefined,
-            sodium: undefined,
-            carb: undefined,
-            fiber: undefined,
-            sugars: undefined,
-            protein: undefined
+            calories: "",
+            fat: "",
+            saturatedFat: "",
+            transFat: "",
+            cholesterol: "",
+            sodium: "",
+            carb: "",
+            fiber: "",
+            sugars: "",
+            protein: ""
         };
 
     function setCurrentFood(newFood) {
-        food = $.extend(blankFood, newFood); // Ensure it has all the right properties
+        food = $.extend({}, blankFood, newFood); // Ensure it has all the right properties
     }
     
     function viewFood() {
@@ -55,7 +55,7 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
     }
     
     function addFood() {
-        food = $.extend(blankFood, {});
+        food = $.extend({}, blankFood);
         ko.applyBindings(food);
         $("#editFood").modal("show");
     }
