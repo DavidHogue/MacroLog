@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 
     grunt.loadNpmTasks("grunt-requirejs");
+    grunt.loadNpmTasks("grunt-contrib-qunit");
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
@@ -16,8 +17,18 @@ module.exports = function(grunt) {
                     wrap: true
                 }
             }
+        },
+        
+        qunit: {
+            all: {
+                options: {
+                    urls: [
+                        "tests/tests.html"
+                    ]
+                }
+            }
         }
     });
     
-    grunt.registerTask('default', 'requirejs');
+    grunt.registerTask("default", "requirejs");
 };
