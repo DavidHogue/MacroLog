@@ -22,6 +22,10 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
         food = $.extend({}, blankFood, newFood); // Ensure it has all the right properties
     }
     
+    function getCurrentFood() {
+        return food;
+    }
+    
     function viewFood() {
         var id = search.getSelectedFoodId();
         if (!id)
@@ -83,4 +87,9 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
         $("#addFoodButton").click(addFood);
         $("#editFoodSave").click(saveFood);
     });
+    
+    return {
+        setCurrentFood: setCurrentFood,
+        getCurrentFood: getCurrentFood
+    };
 });

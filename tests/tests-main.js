@@ -18,7 +18,7 @@ requirejs.config({
 });
 
 require([
-    "tests/food"
+    "tests/food-tests"
 ], function() {
     start();
 });
