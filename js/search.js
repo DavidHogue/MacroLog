@@ -1,4 +1,4 @@
- define(["api"], function(api) {
+ define(["api", "jquery", "bootstrap"], function(api, $) {
  
     var nameToIdMap
  
