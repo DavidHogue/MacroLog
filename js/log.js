@@ -70,15 +70,18 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
         
         $("#logTable").append($row);
     }
+    
+    function clearLog() {
+        $(".logRow").remove();
+        totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 };
+    }
 
     function showLog() {
-        $(".logRow").remove();
+        clearLog();
 
         api.loadLog(date.prettyDate()).done(function(logs) {
             var i,
                 food;
-
-            totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 };
 
             for (i = 0; i < logs.length; i++) {
                 log = logs[i].log;
@@ -91,38 +94,46 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
         });
     }
 
-    function logFood() {
-        var id = search.getSelectedFoodId();
-        if (!id)
-            return;
-    
-        // Get an object from the form data.
+    function logFood(id, quantity) {
+        // Get an object to save.
         var log = {
             type: "log",
             food_id: id,
-            quantity: parseFloat($("#quantity").val()) || 1,
+            quantity: quantity,
             date: date.prettyDate()
         };
 
         // Write to db.
         api.logFood(log).done(function() {
+        
+            // Update UI.
             showLog();
             triggerLogChanged();
         });
-
+    }
+    
+    function logClicked() {
+        var id = search.getSelectedFoodId(),
+            quantity = parseFloat($("#quantity").val()) || 1;
+        if (!id)
+            return;
+            
+        logFood(id, quantity)
+        
         // Prevent normal button events.
         return false;
     }
 
     $(function() {
         showLog();
-
-        $("#log").click(logFood);
+        $("#log").click(logClicked);
         date.dateChanged(showLog);
     });
 
     return {
         getTotals: getTotals,
-        logChanged: logChanged
+        logChanged: logChanged,
+        logFood: logFood,
+        clearLog: clearLog
     }
 });

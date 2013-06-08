@@ -8,12 +8,19 @@ requirejs.config({
     shim: {
         jquery: {
             exports: "jQuery"
+        },
+        bootstrap: {
+            deps: ["jquery"]
         }
     }
 });
 
 define("jquery", function() {
     return window.jQuery;
+});
+
+define("bootstrap", function() {
+    // Doesn't export anything, already on the page.
 });
 
 require([

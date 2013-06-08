@@ -1,4 +1,4 @@
-define(["food"], function(food) {
+define(["food", "api"], function(food, api) {
     
     "use strict";
     
@@ -29,5 +29,9 @@ define(["food"], function(food) {
         food.setCurrentFood({});
         current = food.getCurrentFood();
         equal(current.name, "");
+    });
+    
+    test("stub API loaded correctly", function() {
+        ok(api.stub);
     });
 });
