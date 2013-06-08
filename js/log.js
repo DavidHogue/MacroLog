@@ -25,7 +25,7 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
         });
     }
 
-    function sumFood(food, quantity) {
+    function addToTotal(food, quantity) {
         if (!food || !quantity)
             return;
 
@@ -86,10 +86,14 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
             for (i = 0; i < logs.length; i++) {
                 log = logs[i].log;
                 food = logs[i].food;
-                sumFood(food, log.quantity);
-                addLogRow(food, log);
+                addToTotal(food, log.quantity);
             }
             addLogRow(totals);
+            for (i = 0; i < logs.length; i++) {
+                log = logs[i].log;
+                food = logs[i].food;
+                addLogRow(food, log);
+            }
             triggerLogChanged();
         });
     }
