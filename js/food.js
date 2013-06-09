@@ -33,7 +33,7 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
         
         api.getFood(id).done(function(f) {
             setCurrentFood(f);
-            ko.applyBindings(food);
+            ko.applyBindings(food, document.getElementById("showFood"));
             $("#showFood").modal("show");
         });
     }
@@ -45,7 +45,7 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
 
         api.getFood(id).done(function(f) {
             setCurrentFood(f);
-            ko.applyBindings(food);
+            ko.applyBindings(food, document.getElementById("editFood"));
             $("#editFood").modal("show");
         });
     }
@@ -60,7 +60,7 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
     
     function addFood() {
         food = $.extend({}, blankFood);
-        ko.applyBindings(food);
+            ko.applyBindings(food, document.getElementById("editFood"));
         $("#editFood").modal("show");
     }
     

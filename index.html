@@ -9,7 +9,7 @@
 
     <div class="container">
         <h1>MacroLog</h1>
-        <p class="lead">Track daily macronutrients, food calories, and weight</p>
+        <p class="lead">Log and graph daily calories from food, macronutrients, weight, and other stats</p>
 
         <h3>Date</h3>
         <div>
@@ -32,22 +32,34 @@
        
         <h3>Log</h3>
         <table id="logTable" class="table table-condensed">
-            <tr>
-                <th>Name</th>
-                <th>Calories</th>
-                <th>Fat</th>
-                <th>Carbs</th>
-                <th>Protein</th>
-                <th></th>
-            </tr>
-            <tr class="logTemplate" style="display:none">
-                <td class="name"></td>
-                <td class="calories"></td>
-                <td class="fat"></td>
-                <td class="carb"></td>
-                <td class="protein"></td>
-                <td class="buttons"><button class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</button></td>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Calories</th>
+                    <th>Fat</th>
+                    <th>Carbs</th>
+                    <th>Protein</th>
+                    <th></th>
+                </tr>
+                <tr class="logTotals" data-bind="with: totals">
+                    <td class="name" data-bind="text: name"></td>
+                    <td class="calories" data-bind="text: calories"></td>
+                    <td class="fat" data-bind="text: fat"></td>
+                    <td class="carb" data-bind="text: carb"></td>
+                    <td class="protein" data-bind="text: protein"></td>
+                    <td class="buttons"></td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: logs">
+                <tr>
+                    <td class="name"><span data-bind="text: name"></span> <small class="muted" data-bind="text: quantity"></small></td>
+                    <td class="calories" data-bind="text: calories"></td>
+                    <td class="fat" data-bind="text: fat"></td>
+                    <td class="carb" data-bind="text: carb"></td>
+                    <td class="protein" data-bind="text: protein"></td>
+                    <td class="buttons"></td>
+                </tr>
+            </tbody>
         </table>
         
         <h3>Goals</h3>
@@ -71,6 +83,9 @@
 
         <h3>Charts</h3>
         <div id="chart"></div>
+        
+        <button class="btn" data-toggle="modal" data-target="#debugView" style="position: fixed; right: 0; bottom: 0; margin: 10px">Debug</button>
+
     </div>
     
     
@@ -386,6 +401,19 @@
         <div class="modal-footer">
             <button id="editGoalsSave" class="btn btn-primary">Save</button>
             <button id="showGoalsClose" class="btn" data-toggle="modal" data-target="#editGoals">Close</button>
+        </div>
+    </div>
+    
+    <div id="debugView" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Debug</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-toggle="modal" data-target="#debugView">Close</button>
         </div>
     </div>
 

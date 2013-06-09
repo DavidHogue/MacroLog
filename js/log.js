@@ -1,11 +1,28 @@
-define(["jquery", "api", "date", "search"], function($, api, date, search) {
+define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, date, search, ko) {
     
     var totals,
-        logChangedCallback;
+        logChangedCallback,
+        view = {
+            totals: ko.observable(),
+            logs: ko.observableArray()
+        };
 
-            
     function logChanged(callback) {
         logChangedCallback = callback;
+    }
+    
+    function ViewFood(log, food) {
+        var log = log;
+        this.name = food.name,
+        this.quantity = log.quantity == 1 ? "" : "x" + log.quantity,
+        this.calories = Math.round(food.calories * log.quantity),
+        this.fat = Math.round(food.fat * log.quantity),
+        this.carb = Math.round(food.carb * log.quantity),
+        this.protein = Math.round(food.protein * log.quantity)
+
+        this.delete = function() {
+            console.log("delete", this);
+        }
     }
     
     function triggerLogChanged() {
@@ -39,41 +56,20 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
         return totals;
     }
     
-    function addLogRow(food, log) {
-        var $row = $(".logTemplate")
-            .clone()
-            .css("display", "")
-            .removeClass("logTemplate")
-            .addClass("logRow");
-            
-        var qty = log ? log.quantity : 1;
-        if (!food)
-            food = { name: "-", calories: "-", fat: "-", carb: "-", protein: "-" };
-
-        $row.find(".name").text(food.name);
-        if (qty !== 1)
-            $row.find(".name").append('<small class="muted"> x' + qty + "</small>");
-        $row.find(".calories").text(Math.round(food.calories * qty));
-        $row.find(".fat").text(Math.round(food.fat * qty));
-        $row.find(".carb").text(Math.round(food.carb * qty));
-        $row.find(".protein").text(Math.round(food.protein * qty));
-        
-        if (log) {
-            $row.find(".buttons .btn")
-                .data('id', log._id)
-                .data('rev', log._rev)
-                .click(deleteFood);
-        } else {
-            $row.find(".buttons .btn").remove();
-            $row.addClass("text-info");
-        }
-        
-        $("#logTable").append($row);
-    }
-    
     function clearLog() {
         $(".logRow").remove();
         totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 };
+    }
+    
+    function mapLogToView(log, food) {
+        return {
+            name: food.name,
+            quantity: log.quantity == 1 ? "" : "x" + log.quantity,
+            calories: Math.round(food.calories * log.quantity),
+            fat: Math.round(food.fat * log.quantity),
+            carb: Math.round(food.carb * log.quantity),
+            protein: Math.round(food.protein * log.quantity)
+        };
     }
 
     function showLog() {
@@ -83,17 +79,14 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
             var i,
                 food;
 
+            view.logs.removeAll();
             for (i = 0; i < logs.length; i++) {
                 log = logs[i].log;
                 food = logs[i].food;
                 addToTotal(food, log.quantity);
+                view.logs.push(mapLogToView(log, food));
             }
-            addLogRow(totals);
-            for (i = 0; i < logs.length; i++) {
-                log = logs[i].log;
-                food = logs[i].food;
-                addLogRow(food, log);
-            }
+            view.totals(totals);
             triggerLogChanged();
         });
     }
@@ -132,6 +125,7 @@ define(["jquery", "api", "date", "search"], function($, api, date, search) {
         showLog();
         $("#log").click(logClicked);
         date.dateChanged(showLog);
+        ko.applyBindings(view, document.getElementById("logTable"));
     });
 
     return {
