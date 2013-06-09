@@ -20,8 +20,8 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
         this.carb = Math.round(food.carb * log.quantity),
         this.protein = Math.round(food.protein * log.quantity)
 
-        this.delete = function() {
-            console.log("delete", this);
+        this.deleteLog = function() {
+            view.logs.remove(this);
         }
     }
     
@@ -29,19 +29,7 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
         if (typeof logChangedCallback === "function")
             logChangedCallback();
     }
-        
-    function deleteFood(e) {
-        e.preventDefault();
-
-        var $button = $(this);
-        var id = $button.data('id');
-        var rev = $button.data('rev');
-        api.deleteLog(id, rev).done(function() {
-            $button.parents(".logRow").remove();
-            triggerLogChanged();
-        });
-    }
-
+    
     function addToTotal(food, quantity) {
         if (!food || !quantity)
             return;
@@ -57,19 +45,9 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
     }
     
     function clearLog() {
-        $(".logRow").remove();
         totals = { name: "Totals", calories: 0, fat: 0, carb: 0, protein: 0 };
-    }
-    
-    function mapLogToView(log, food) {
-        return {
-            name: food.name,
-            quantity: log.quantity == 1 ? "" : "x" + log.quantity,
-            calories: Math.round(food.calories * log.quantity),
-            fat: Math.round(food.fat * log.quantity),
-            carb: Math.round(food.carb * log.quantity),
-            protein: Math.round(food.protein * log.quantity)
-        };
+        view.totals(totals);
+        view.logs.removeAll();
     }
 
     function showLog() {
@@ -84,7 +62,7 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
                 log = logs[i].log;
                 food = logs[i].food;
                 addToTotal(food, log.quantity);
-                view.logs.push(mapLogToView(log, food));
+                view.logs.push(new ViewFood(log, food));
             }
             view.totals(totals);
             triggerLogChanged();
@@ -121,12 +99,11 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
         return false;
     }
 
-    $(function() {
-        showLog();
-        $("#log").click(logClicked);
-        date.dateChanged(showLog);
-        ko.applyBindings(view, document.getElementById("logTable"));
-    });
+    showLog();
+    $("#log").click(logClicked);
+    date.dateChanged(showLog);
+    ko.applyBindings(view, document.getElementById("debugView"));
+    ko.applyBindings(view, document.getElementById("logTable"));
 
     return {
         getTotals: getTotals,
