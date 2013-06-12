@@ -68,7 +68,7 @@ app.get("/log/:date", function(req, res) {
     if (date.indexOf("%2F") >= 0)
         date = decodeURIComponent(date);
         
-    api.loadLog(req.params.date, function(results) {
+    api.loadLog(date, function(results) {
         res.json(results);
     });
 });
