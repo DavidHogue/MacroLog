@@ -59,6 +59,15 @@ app.post("/food/save", function(req, res) {
 });
 
 app.get("/log/:date", function(req, res) {
+    var date = req.params.date;
+    
+    // Apache is being a dick. The "AllowEncodedSlashes NoDecode" option 
+    // seems to actually cause it to double encode the URL.
+    if (date.indexOf("%25") >= 0)
+        date = decodeURIComponent(date);
+    if (date.indexOf("%2F") >= 0)
+        date = decodeURIComponent(date);
+        
     api.loadLog(req.params.date, function(results) {
         res.json(results);
     });
