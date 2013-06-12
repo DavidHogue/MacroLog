@@ -13,6 +13,7 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
     
     function ViewFood(log, food) {
         var log = log;
+        this.rev = log._rev,
         this.name = food.name,
         this.quantity = log.quantity == 1 ? "" : "x" + log.quantity,
         this.calories = Math.round(food.calories * log.quantity),
@@ -21,7 +22,11 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
         this.protein = Math.round(food.protein * log.quantity)
 
         this.deleteLog = function() {
-            view.logs.remove(this);
+            var removing = this;
+            api.deleteLog(log._id, log._rev).done(function() {
+                view.logs.remove(removing);
+                triggerLogChanged();
+            });
         }
     }
     

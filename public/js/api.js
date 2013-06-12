@@ -58,9 +58,13 @@ define(["config"], function(config) {
     }
     
     function deleteLog(id, rev) {
-        return $.ajax(config.api + "/log/delete/" + encodeURIComponent(id) + "/" + encodeURIComponent(rev), {
-                    type: "DELETE"
-                });
+        var deferred = new $.Deferred();
+        $.ajax(config.api + "/log/delete/" + encodeURIComponent(id) + "/" + encodeURIComponent(rev), {
+                type: "DELETE"
+            }).always(function() {
+                deferred.resolve();
+            });
+        return deferred;
     }
     
     function saveDay(day) {
