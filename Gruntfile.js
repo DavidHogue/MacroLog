@@ -11,7 +11,7 @@ module.exports = function(grunt) {
                 options: {
                     almond: true,
                     name: "main",
-                    baseUrl: "js",
+                    baseUrl: "public/js",
                     mainConfigFile: "public/js/main.js",
                     out: "public/js/optimized.js",
                     wrap: true
