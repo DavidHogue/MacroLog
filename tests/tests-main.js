@@ -1,11 +1,11 @@
 requirejs.config({
-    baseUrl: "../js",
+    baseUrl: "../public/js",
     paths: {
         jquery: "http://code.jquery.com/jquery-1.10.0.min",
         propertyParser : "lib/propertyParser",
         bootstrap: "lib/bootstrap.min",
-        tests: "../tests",
-        api: "../tests/stub-api"
+        tests: "../../tests",
+        api: "../../tests/stub-api"
     },
     shim: {
         jquery: {
