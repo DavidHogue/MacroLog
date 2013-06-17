@@ -2,7 +2,7 @@
 
 var express = require("express");
 var config = require("./config");
-var api = require("./api");
+var api = require("./mongoApi");
 
 var app = express();
 
