@@ -3,6 +3,7 @@
 var config = require("./config"),
     nano = require("nano")(config.database),
     MongoClient = require("mongodb").MongoClient,
+    ObjectID = require('mongodb').ObjectID,
     Q = require("Q");
 
 
@@ -90,41 +91,60 @@ function printMongoDocs(db) {
 }
 
 function saveOrUpdate(docs, db) {
-    var deferred = Q.defer();
+    console.log("saving data");
+    var promises = [];
     ["food", "log", "day", "goals"].forEach(function(type) {
         var collection = db.collection(type);
+        var update = Q.nbind(collection.update, collection)
         docs.forEach(function(doc) {
             if (doc.type == type) {
-                collection.update({ couch_id: doc.couch_id }, doc, { upsert: true, w: 1 }, function(err, result) {
-                    if (err) throw err;
-                });
+                promises.push(update({ couch_id: doc.couch_id }, doc, { upsert: true, w: 1 }));
             }
         });
+    });
+    return Q.all(promises).then(function() {
+        return db;
     });
 }
 
 function updateReferenceIds(db) {
+    console.log("Updating food_id references");
     var logCollection = db.collection("log");
     var foodCollection = db.collection("food");
+    
+    var deferred = Q.defer();
     logCollection.find().toArray(function(err, result) {
         if (err) throw err;
+        console.log(result.length, " logs found");
+        var promises = []
+        var findOne = Q.nbind(foodCollection.findOne, foodCollection);
         result.forEach(function(log) {
-            if (typeof log.food_id == "string") {
-                console.log("convert:", log.food_id);
-                foodCollection.findOne({ couch_id: log.food_id }, function(err, food) {
+            if (typeof log.food_id != "string")
+                return;
+                
+                
+            promises.push(findOne({ couch_id: log.food_couch_id }).then(function(food) {
+                if (err) throw err;
+                if (!food) return;
+                if (log.food_id == food._id) return;
+                console.log("new id:", food._id);
+                log.food_couch_id = log.food_id;
+                log.food_id = food._id;
+                var id = log._id;
+                console.log(id, typeof id);
+                if (typeof id == "string")
+                    id = new ObjectID(id);
+                logCollection.update({ _id: id }, log, { upsert: true, w: 1 }, function(err, result) {
                     if (err) throw err;
-                    console.log("new id:", food._id);
-                    log.food_couch_id = log.food_id;
-                    log.food_id = food._id;
-                    logCollection.update({ _id: log._id }, log, { upsert: true, w: 1 }, function(err, result) {
-                        if (err) throw err;
-                    });                    
-                });
-            } else {
-                console.log("fine", { food_id: log.food_id, food_couch_id: log.food_couch_id });
-            }
+                });                    
+            }));
+        });
+        Q.all(promises).done(function() {
+            console.log("Done updating references");
+            deferred.resolve();
         });
     });
+    return deferred.promise;
 }
 
 //getCouchDocs()
@@ -136,18 +156,13 @@ function updateReferenceIds(db) {
 //    .then(printMongoDocs)
 //    .done();
 
-/*
 Q.all([
     getCouchDocs()
         .then(printDocTypes)
         .then(mapCouchIdsToPlaceholders),
     connectToMongo()
-]).then(function(args) {
-    saveOrUpdate(args[0], args[1]);
-}).done();
-*/
-
-connectToMongo()
-    .then(updateReferenceIds)
-    .done();
-    
+]).spread(saveOrUpdate)
+.then(updateReferenceIds)
+.done(function() {
+    process.exit(0);
+});
