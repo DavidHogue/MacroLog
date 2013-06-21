@@ -1,7 +1,9 @@
 "use strict";
 
 var config = require("./config"),
-    MongoClient = require("mongodb").MongoClient;
+    MongoClient = require("mongodb").MongoClient,
+    ObjectID = require('mongodb').ObjectID,
+    Q = require("q");
     
 var db;
 MongoClient.connect(config.mongoConnectionString, function(err, result) {
@@ -28,7 +30,7 @@ exports.searchFoods = function(input, callback) {
 
 exports.getFood = function(id, callback) {
     var collection = db.collection("food");
-    collection.findOne({ _id: id }, function(err, food) {
+    collection.findOne({ _id: ObjectID(id) }, function(err, food) {
         if (err) throw err;
         callback(food);
     });
@@ -44,23 +46,46 @@ exports.addFood = function(food, callback) {
 
 exports.loadLog = function(date, callback) {
     var collection = db.collection("log");
-    collection.find({ date: date }).toArray(function(err, result) {
+    var foodCollection = db.collection("food");
+    collection.find({ date: date }).toArray(function(err, docs) {
         if (err) throw err;
-        callback(result);
+        
+        var results = [];
+
+        var i = 0;
+        var promises = []
+        docs.forEach(function(doc) {
+            if (!doc) return;
+
+            console.log(doc);
+            promises.push(
+                Q.npost(foodCollection, "findOne", [{ _id: new ObjectID(doc.food_id) }])
+                    .then(function(food) {
+                        results.push({ 
+                            log: doc, 
+                            food: food
+                        });
+                    })
+            );
+        });
+        
+        Q.all(promises).done(function() {
+            callback(results);
+        });
     });
 };
 
 exports.logFood = function(log, callback) {
     var collection = db.collection("log");
-    collection.insert(log, function(err, result) {
+    collection.update({ _id: new ObjectID(log._id) }, log, { upsert: true }, function(err, result) {
         if (err) throw err;
-        callback();
+        callback(result);
     });
 };
 
 exports.deleteLog = function(id, rev, callback) {
     var collection = db.collection("log");
-    collection.remove({ _id: id }, function(err, result) {
+    collection.remove({ _id: new ObjectID(id) }, function(err, result) {
         if (err) throw err;
         callback();
     });
@@ -68,7 +93,7 @@ exports.deleteLog = function(id, rev, callback) {
     
 exports.saveDay = function(day, callback) {
     var collection = db.collection("day");
-    collection.update({ _id: day._id }, day, true, function(err, result) {
+    collection.update({ _id: new ObjectID(day._id) }, day, true, function(err, result) {
         if (err) throw err;
         callback();
     });
@@ -91,7 +116,7 @@ exports.getGoals = function(callback) {
     
 exports.saveGoals = function(goal, callback) {
     var collection = db.collection("goal");
-    collection.update({ _id: goal._id }, goal, true, function(err, result) {
+    collection.update({ _id: new ObjectID(goal._id) }, goal, true, function(err, result) {
         if (err) throw err;
         callback();
     });
