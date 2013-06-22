@@ -15,7 +15,11 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
             carb: "",
             fiber: "",
             sugars: "",
-            protein: ""
+            protein: "",
+            servingSize: "",
+            servingSizeAlt: "",
+            servingsPerContainer: "",
+            caloriesFromFat: ""
         };
 
     function setCurrentFood(newFood) {

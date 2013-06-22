@@ -100,18 +100,18 @@
                     Nutrition Facts
                 </h1>
                 <div class="servints">
-                    Serving Size <span></span>
+                    Serving Size <span data-bind="text: servingSize"></span> (<span data-bind="text: servingSizeAlt"></span>)
                 </div>
                 <div class="servings">
-                    Servings Per Container <span></span>
+                    Servings Per Container <span data-bind="text: servingsPerContainer"></span>
                 </div>
                 <hr class="thick" />
                 <div>
                     <strong>Amount Per Serving</strong>
                 </div>
                 <div>
-                    <strong>Calories</strong> <span data-bind="text:calories"></span>
-                    <span class="right">Calories from Fat <span></span></span>
+                    <strong>Calories</strong> <span data-bind="text: calories"></span>
+                    <span class="right">Calories from Fat <span data-bind="text: caloriesFromFat"></span></span>
                 </div>
                 <hr />
                 <h2>
@@ -185,7 +185,7 @@
                 <div class="servints">
                     Serving Size 
                     <span class="input-append">
-                        <input type="text" class="input-mini">
+                        <input type="text" class="input-mini" data-bind="value: servingSize">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 cup <span class="caret"></span>
@@ -197,7 +197,7 @@
                         </span>
                     </span>
                     (<span class="input-append">
-                        <input type="text" class="input-mini">
+                        <input type="text" class="input-mini" data-bind="value: servingSizeAlt">
                         <span class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 g <span class="caret"></span>
@@ -210,15 +210,15 @@
                     </span>)
                 </div>
                 <div class="servings">
-                    Servings Per Container <input type="text" class="input-mini">
+                    Servings Per Container <input type="text" class="input-mini" data-bind="value: servingsPerContainer">
                 </div>
                 <hr class="thick" />
                 <div>
                     <strong>Amount Per Serving</strong>
                 </div>
                 <div>
-                    <strong>Calories</strong> <input type="text" class="input-mini" data-bind="value:calories">
-                    <span class="right">Calories from Fat <input type="text" class="input-mini"></span>
+                    <strong>Calories</strong> <input type="text" class="input-mini" data-bind="value: calories">
+                    <span class="right">Calories from Fat <input type="text" class="input-mini" data-bind="value: caloriesFromFat"></span>
                 </div>
                 <hr />
                 <h2>
