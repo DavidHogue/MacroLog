@@ -66,8 +66,10 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
             for (i = 0; i < logs.length; i++) {
                 log = logs[i].log;
                 food = logs[i].food;
-                addToTotal(food, log.quantity);
-                view.logs.push(new ViewFood(log, food));
+                if (log && food) {
+                    addToTotal(food, log.quantity);
+                    view.logs.push(new ViewFood(log, food));
+                }
             }
             view.totals(totals);
             triggerLogChanged();

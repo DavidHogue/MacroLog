@@ -12,7 +12,7 @@
             nameToIdMap = {};
             for (i = 0; i < results.length; i++) {
                 food = results[i];
-                nameToIdMap[food.name] = food.id;
+                nameToIdMap[food.name] = food._id;
                 
                 // Add the name to the list for the drop down.
                 foods.push(food.name);
