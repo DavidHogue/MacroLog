@@ -39,7 +39,7 @@ exports.getFood = function(id, callback) {
 exports.addFood = function(food, callback) {
     var collection = db.collection("food");
     food._id = ObjectID(food._id);
-    collection.update({ _id: food._id }, food, true, function(err, result) {
+    collection.update({ _id: food._id }, food, { upsert: true }, function(err, result) {
         if (err) throw err;
         callback(result);
     });
