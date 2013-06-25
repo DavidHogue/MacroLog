@@ -19,6 +19,10 @@ define(["food", "api"], function(food, api) {
         equal(current.fiber, "");
         equal(current.sugars, "");
         equal(current.protein, "");
+        equal(current.servingSize, "");
+        equal(current.servingSizeAlt, "");
+        equal(current.servingsPerContainer, "");
+        equal(current.caloriesFromFat, "");
     });
     
     test("setCurrentFood blanks out fields from previous edit", function() {

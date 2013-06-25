@@ -186,9 +186,9 @@
                     Serving Size 
                     <span class="input-append">
                         <input type="text" class="input-mini" data-bind="value: servingSize">
-                        <span class="btn-group">
+                        <span class="btn-group" data-bind="dropdown: 'servingSizeUnits'">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                cup <span class="caret"></span>
+                                <span class="selection">cup</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a href="#">cup</a></li>
@@ -198,9 +198,9 @@
                     </span>
                     (<span class="input-append">
                         <input type="text" class="input-mini" data-bind="value: servingSizeAlt">
-                        <span class="btn-group">
+                        <span class="btn-group" data-bind="dropdown: 'servingSizeAltUnits'">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                g <span class="caret"></span>
+                                <span class="selection">g</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a href="#">g</a></li>
@@ -418,7 +418,7 @@
     </div>
 
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/bootstrap.js"></script>
     
     <script data-main="js/main" src="js/lib/require.js"></script>
     

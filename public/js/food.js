@@ -1,4 +1,4 @@
-define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko) {
+define(["jquery", "api", "search", "lib/knockout", "knockout-bindings"], function($, api, search, ko) {
     
     "use strict";
 
@@ -17,6 +17,7 @@ define(["jquery", "api", "search", "lib/knockout"], function($, api, search, ko)
             sugars: "",
             protein: "",
             servingSize: "",
+            servingSizeUnits: "",
             servingSizeAlt: "",
             servingsPerContainer: "",
             caloriesFromFat: ""
