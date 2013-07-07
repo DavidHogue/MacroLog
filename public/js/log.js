@@ -96,19 +96,57 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
     }
     
     function logClicked() {
-        var id = search.getSelectedFoodId(),
-            quantity = parseFloat($("#quantity").val()) || 1;
-        if (!id)
+        var food = search.getSelectedFood(),
+            quantity = parseFloat($("#quantity").val()) || 1,
+            units = $("#logUnitSelector .selection").text();
+
+        if (!food)
             return;
-            
-        logFood(id, quantity)
+        
+        if (units == "servings")
+            quantity = quantity;
+        else if (units == food.servingSizeUnits)
+            quantity = quantity / food.servingSize;
+        else if (units == food.servingSizeAltUnits)
+            quantity = quantity / food.servingSizeAlt;
+        else
+            return;
+        
+        logFood(food._id, quantity)
         
         // Prevent normal button events.
         return false;
     }
+    
+    function foodSelected(food) {
+        var units = $("#logUnitSelector");
+        var ul = units.find("ul");
+        ul.empty();
+        
+        var li = $("<li><a href=\"#\"></a></li>");
+        li.find("a").text("servings");
+        ul.append(li);
+        
+        if (food.servingSizeUnits) {
+            var li = $("<li><a href=\"#\"></a></li>");
+            li.find("a").text(food.servingSizeUnits);
+            ul.append(li);
+        }
+        
+        if (food.servingSizeAltUnits) {
+            var li = $("<li><a href=\"#\"></a></li>");
+            li.find("a").text(food.servingSizeAltUnits);
+            ul.append(li);
+        }
+        
+        ul.find("li a").click(function() {
+            units.find(".selection").text($(this).text());
+        });
+    }
 
     showLog();
     $("#log").click(logClicked);
+    search.onFoodSelected(foodSelected);
     date.dateChanged(showLog);
     ko.applyBindings(view, document.getElementById("debugView"));
     ko.applyBindings(view, document.getElementById("logTable"));

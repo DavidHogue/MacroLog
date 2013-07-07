@@ -42,27 +42,23 @@ define(["jquery", "api", "search", "lib/knockout", "knockout-bindings"], functio
     }
     
     function viewFood() {
-        var id = search.getSelectedFoodId();
-        if (!id)
+        var food = search.getSelectedFood();
+        if (!food)
             return;
         
-        api.getFood(id).done(function(f) {
-            setCurrentFood(f);
-            ko.applyBindings(food, document.getElementById("showFood"));
-            $("#showFood").modal("show");
-        });
+        setCurrentFood(food);
+        ko.applyBindings(food, document.getElementById("showFood"));
+        $("#showFood").modal("show");
     }
     
     function editFood() {
-        var id = search.getSelectedFoodId();
-        if (!id)
+        var food = search.getSelectedFood();
+        if (!food)
             return;
 
-        api.getFood(id).done(function(f) {
-            setCurrentFood(f);
-            ko.applyBindings(food, document.getElementById("editFood"));
-            $("#editFood").modal("show");
-        });
+        setCurrentFood(food);
+        ko.applyBindings(food, document.getElementById("editFood"));
+        $("#editFood").modal("show");
     }
     
     function saveEditFood() {

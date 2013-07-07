@@ -1,8 +1,9 @@
  define(["api", "jquery", "bootstrap"], function(api, $) {
     "use strict";
  
-    var nameToIdMap,
-        selected;
+    var nameToFoodMap,
+        selected,
+        foodSelectedCallback;
  
     function search(query, process) {
         // Call the API
@@ -11,10 +12,10 @@
                 i,
                 food;
             // Map names back to ids for later.
-            nameToIdMap = {};
+            nameToFoodMap = {};
             for (i = 0; i < results.length; i++) {
                 food = results[i];
-                nameToIdMap[food.name] = food._id;
+                nameToFoodMap[food.name] = food;
                 
                 // Add the name to the list for the drop down.
                 foods.push(food.name);
@@ -27,15 +28,21 @@
     
     function updater(item) {
         selected = null;
-        if (!nameToIdMap || !nameToIdMap[item])
+        if (!nameToFoodMap || !nameToFoodMap[item])
             return null;
             
-        selected = nameToIdMap[item];
+        selected = nameToFoodMap[item];
+        if (foodSelectedCallback)
+            foodSelectedCallback(selected);
         return item;
     }
     
-    function getSelectedFoodId() {
+    function getSelectedFood() {
         return selected;
+    }
+    
+    function onFoodSelected(callback) {
+        foodSelectedCallback = callback;
     }
  
     $(function() {
@@ -46,7 +53,8 @@
     });
     
     return {
-        getSelectedFoodId: getSelectedFoodId
+        getSelectedFood: getSelectedFood,
+        onFoodSelected: onFoodSelected
     };
     
  });

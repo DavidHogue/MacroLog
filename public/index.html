@@ -20,9 +20,22 @@
         
         <h3>Add Food</h3>
         <form class="form-horizontal">
-            <input type="text" id="search" class="input-xxlarge" data-provide="typeahead" autocomplete="off">
-            <input type="number" class="input-small" name="quantity" id="quantity" placeholder="quantity">
+            <input type="text" id="search" class="input-xxlarge" style="width: 475px" data-provide="typeahead" autocomplete="off">
+
+            <input type="number" step="any" class="input-mini" name="quantity" id="quantity" placeholder="#">
+            <span class="btn-group" id="logUnitSelector">
+                <button class="btn dropdown-toggle input-small" data-toggle="dropdown">
+                    <span class="selection">serving</span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">serving</a></li>
+                    <li><a href="#">oz</a></li>
+                    <li><a href="#">g</a></li>
+                </ul>
+            </span>
+            
             <button type="button" class="btn btn-primary" id="log">Add to log</button>
+
             <span class="btn-group">
                 <button type="button" class="btn" id="viewFoodButton">View</button>
                 <button type="button" class="btn" id="editFoodButton">Edit</button>
