@@ -1,6 +1,8 @@
  define(["api", "jquery", "bootstrap"], function(api, $) {
+    "use strict";
  
-    var nameToIdMap
+    var nameToIdMap,
+        selected;
  
     function search(query, process) {
         // Call the API
@@ -23,20 +25,23 @@
         });
     }
     
-    function getSelectedFoodId() {
-        if (!nameToIdMap)
-            return null;
-        
-        var search = $("#search").val();
-        if (!nameToIdMap[search])
+    function updater(item) {
+        selected = null;
+        if (!nameToIdMap || !nameToIdMap[item])
             return null;
             
-        return nameToIdMap[search];
+        selected = nameToIdMap[item];
+        return item;
+    }
+    
+    function getSelectedFoodId() {
+        return selected;
     }
  
     $(function() {
         $("#search").typeahead({
-            source: search
+            source: search,
+            updater: updater
         });
     });
     

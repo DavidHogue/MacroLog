@@ -1,4 +1,5 @@
 define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, date, search, ko) {
+    "use strict";
     
     var totals,
         logChangedCallback,
@@ -64,8 +65,8 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
 
             view.logs.removeAll();
             for (i = 0; i < logs.length; i++) {
-                log = logs[i].log;
-                food = logs[i].food;
+                var log = logs[i].log;
+                var food = logs[i].food;
                 if (log && food) {
                     addToTotal(food, log.quantity);
                     view.logs.push(new ViewFood(log, food));
