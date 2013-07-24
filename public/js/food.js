@@ -1,3 +1,4 @@
+define(["jquery", "api", "search", "lib/knockout", "knockout-bindings"], function($, api, search, ko) {
     
     "use strict";
 
