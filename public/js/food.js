@@ -1,4 +1,3 @@
-define(["jquery", "api", "search", "lib/knockout", "knockout-bindings"], function($, api, search, ko) {
     
     "use strict";
 
@@ -8,23 +7,14 @@ define(["jquery", "api", "search", "lib/knockout", "knockout-bindings"], functio
             name: "",
             calories: "",
             fat: "",
-            fatUnits: "g",
             saturatedFat: "",
-            saturatedFatUnits: "g",
             transFat: "",
-            transFatUnits: "g",
             cholesterol: "",
-            cholesterolUnits: "mg",
             sodium: "",
-            sodiumUnits: "mg",
             carb: "",
-            carbUnits: "g",
             fiber: "",
-            fiberUnits: "g",
             sugars: "",
-            sugarsUnits: "g",
             protein: "",
-            proteinUnits: "g",
             servingSize: "",
             servingSizeUnits: "cup",
             servingSizeAlt: "",
