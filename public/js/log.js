@@ -103,7 +103,7 @@ define(["jquery", "api", "date", "search", "lib/knockout"], function($, api, dat
         if (!food)
             return;
         
-        if (units == "servings")
+        if (units == "servings" || units == "serving")
             quantity = quantity;
         else if (units == food.servingSizeUnits)
             quantity = quantity / food.servingSize;
