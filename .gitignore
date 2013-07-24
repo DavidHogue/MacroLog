@@ -1,2 +1,4 @@
-node_modules
-public/js/optimized.js
+/node_modules
+/public/js/optimized.js
+/dump/
+/Nutrition Facts Pictures/
